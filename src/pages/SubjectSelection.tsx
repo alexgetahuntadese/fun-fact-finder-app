@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,7 +24,7 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
       try {
         setLoading(true);
         setError(null);
-        const fetchedSubjects = await getSubjects();
+        const fetchedSubjects = await getSubjects(grade);
         setSubjects(fetchedSubjects);
       } catch (err) {
         console.error('Error fetching subjects:', err);
@@ -36,7 +35,7 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
     };
 
     fetchSubjects();
-  }, []);
+  }, [grade]);
 
   if (loading) {
     return (
