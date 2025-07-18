@@ -78,7 +78,9 @@ export const getQuestionsFromDatabase = async (
     const transformedQuestions: DatabaseQuestion[] = questions.map(q => ({
       id: q.id,
       question: q.question,
-      options: Array.isArray(q.options) ? q.options : [],
+      options: Array.isArray(q.options) ? 
+        q.options.map(option => String(option)) : 
+        [],
       correct_answer: q.correct_answer,
       explanation: q.explanation,
       difficulty: q.difficulty,
