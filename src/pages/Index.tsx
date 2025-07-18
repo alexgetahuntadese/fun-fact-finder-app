@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -16,9 +15,9 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'grades' | 'subjects' | 'chapters' | 'quiz' | 'quiz-interface'>('home');
   const [user, setUser] = useState<{ name: string; grade: string; school?: string } | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<any>(null);
-  const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
+  const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
-  const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
+  const [selectedChapters, setSelectedChapters] = useState<string[]>([]);
 
   const handleLogin = (userData: { name: string; grade: string; school?: string }) => {
     setUser(userData);
@@ -30,12 +29,12 @@ const Index = () => {
     setSelectedQuiz(null);
     setSelectedGrade(null);
     setSelectedSubject(null);
-    setSelectedChapter(null);
+    setSelectedChapters([]);
     setCurrentView('home');
   };
 
   const handleGradeSelect = (grade: number) => {
-    setSelectedGrade(grade);
+    setSelectedGrade(grade.toString());
     setCurrentView('subjects');
   };
 
@@ -44,8 +43,8 @@ const Index = () => {
     setCurrentView('chapters');
   };
 
-  const handleChapterSelect = (chapter: string) => {
-    setSelectedChapter(chapter);
+  const handleChapterSelect = (chapters: string[]) => {
+    setSelectedChapters(chapters);
     setCurrentView('quiz');
   };
 
@@ -65,18 +64,18 @@ const Index = () => {
     setSelectedQuiz(null);
     setSelectedGrade(null);
     setSelectedSubject(null);
-    setSelectedChapter(null);
+    setSelectedChapters([]);
     setCurrentView('grades');
   };
 
   const handleBackToSubjects = () => {
     setSelectedSubject(null);
-    setSelectedChapter(null);
+    setSelectedChapters([]);
     setCurrentView('subjects');
   };
 
   const handleBackToChapters = () => {
-    setSelectedChapter(null);
+    setSelectedChapters([]);
     setCurrentView('chapters');
   };
 
@@ -128,7 +127,6 @@ const Index = () => {
   if (currentView === 'subjects' && user && selectedGrade) {
     return (
       <SubjectSelection 
-        user={user} 
         grade={selectedGrade}
         onBack={handleBackToGrades}
         onSubjectSelect={handleSubjectSelect}
@@ -139,7 +137,6 @@ const Index = () => {
   if (currentView === 'chapters' && user && selectedGrade && selectedSubject) {
     return (
       <ChaptersPage 
-        user={user}
         grade={selectedGrade}
         subject={selectedSubject}
         onBack={handleBackToSubjects}
@@ -148,13 +145,13 @@ const Index = () => {
     );
   }
 
-  if (currentView === 'quiz' && user && selectedGrade && selectedSubject && selectedChapter) {
+  if (currentView === 'quiz' && user && selectedGrade && selectedSubject && selectedChapters.length > 0) {
     return (
       <QuizPage 
         user={user}
         grade={selectedGrade}
         subject={selectedSubject}
-        chapter={selectedChapter}
+        chapter={selectedChapters[0]} // Pass the first selected chapter for now
         onBack={handleBackToChapters}
         onStartQuiz={handleSelectQuiz}
       />

@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import SubjectCard from '@/components/SubjectCard';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { getSubjects, Subject } from '@/utils/supabaseData';
 
 interface SubjectSelectionProps {
@@ -96,12 +96,20 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
 
         <div className="space-y-4">
           {subjects.map((subject) => (
-            <SubjectCard
+            <Card
               key={subject.id}
-              title={subject.name}
-              description={subject.description || `Study ${subject.name} concepts and practice questions`}
+              className="cursor-pointer hover:shadow-md transition-all duration-200"
               onClick={() => onSubjectSelect(subject.name)}
-            />
+            >
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  {subject.name}
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {subject.description || `Study ${subject.name} concepts and practice questions`}
+                </p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

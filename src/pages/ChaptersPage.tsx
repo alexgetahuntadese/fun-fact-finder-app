@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import ChapterCard from '@/components/ChapterCard';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { getChaptersBySubject, Chapter } from '@/utils/supabaseData';
 
 interface ChaptersPageProps {
@@ -118,13 +119,33 @@ const ChaptersPage: React.FC<ChaptersPageProps> = ({
 
         <div className="space-y-4 mb-8">
           {chapters.map((chapter) => (
-            <ChapterCard
+            <Card 
               key={chapter.id}
-              title={chapter.name}
-              description={chapter.description || `Practice questions from ${chapter.name}`}
-              isSelected={selectedChapters.includes(chapter.name)}
+              className={`cursor-pointer transition-all duration-200 ${
+                selectedChapters.includes(chapter.name)
+                  ? 'ring-2 ring-blue-500 bg-blue-50'
+                  : 'hover:shadow-md'
+              }`}
               onClick={() => handleChapterToggle(chapter.name)}
-            />
+            >
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">
+                      {chapter.name}
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                      {chapter.description || `Practice questions from ${chapter.name}`}
+                    </p>
+                  </div>
+                  {selectedChapters.includes(chapter.name) && (
+                    <Badge className="ml-2 bg-blue-500 text-white">
+                      Selected
+                    </Badge>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
