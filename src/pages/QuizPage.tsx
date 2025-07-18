@@ -22,6 +22,7 @@ const QuizPage = () => {
   const decodedChapter = decodeURIComponent(chapterId || '');
 
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -90,6 +91,7 @@ const QuizPage = () => {
     const quizQuestions = initializeQuestions();
     setQuestions(quizQuestions);
     setAnswers(new Array(quizQuestions.length).fill(null));
+    setIsLoading(false); // Mark loading as complete
   }, [decodedSubject, grade, decodedChapter]);
 
   useEffect(() => {
@@ -157,6 +159,7 @@ const QuizPage = () => {
   };
 
   const handleRetake = () => {
+    setIsLoading(true);
     setCurrentQuestion(0);
     setSelectedAnswer(null);
     setShowResult(false);
@@ -183,6 +186,7 @@ const QuizPage = () => {
     const newQuestions = initializeQuestions();
     setQuestions(newQuestions);
     setAnswers(new Array(newQuestions.length).fill(null));
+    setIsLoading(false);
   };
 
   const getScoreColor = (score: number, total: number) => {
@@ -192,7 +196,19 @@ const QuizPage = () => {
     return 'text-red-500';
   };
 
-  const progress = ((currentQuestion + 1) / questions.length) * 100;
+  const progress = questions.length > 0 ? ((currentQuestion + 1) / questions.length) * 100 : 0;
+
+  // Show loading state while questions are being prepared
+  if (isLoading || questions.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-white text-lg">Preparing your quiz...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (showResult) {
     const percentage = Math.round((score / questions.length) * 100);
@@ -307,12 +323,12 @@ const QuizPage = () => {
             </CardDescription>
             </div>
             <CardTitle className="text-white text-2xl leading-relaxed">
-              {questions[currentQuestion].question}
+              {questions[currentQuestion]?.question || "Loading question..."}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {questions[currentQuestion].options.map((option, index) => (
+              {questions[currentQuestion]?.options?.map((option, index) => (
                 <button
                   key={index}
                   onClick={() => handleAnswerSelect(index)}
@@ -327,7 +343,7 @@ const QuizPage = () => {
                   </span>
                   {option}
                 </button>
-              ))}
+              )) || <p className="text-white">Loading options...</p>}
             </div>
           </CardContent>
         </Card>
