@@ -22,24 +22,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300">
-            <CardHeader>
-              <CardTitle className="text-white text-2xl">Ready to Learn?</CardTitle>
-              <CardDescription className="text-blue-200">
-                Start your educational journey with interactive quizzes
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button 
-                onClick={() => navigate('/grades')}
-                className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3"
-              >
-                Start Learning
-              </Button>
-            </CardContent>
-          </Card>
-
+        <div className="max-w-md mx-auto">
           <Card className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300">
             <CardHeader>
               <CardTitle className="text-white text-2xl">Explore Subjects</CardTitle>
