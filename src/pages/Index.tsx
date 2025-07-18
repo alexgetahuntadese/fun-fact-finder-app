@@ -1,20 +1,25 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import LoginForm from "@/components/LoginForm";
 import RegisterForm from "@/components/RegisterForm";
-import QuizDashboard from "@/components/QuizDashboard";
 import QuizInterface from "@/components/QuizInterface";
+import GradeSelection from "./GradeSelection";
+import SubjectSelection from "./SubjectSelection";
+import ChaptersPage from "./ChaptersPage";
+import QuizPage from "./QuizPage";
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'dashboard' | 'quiz'>('home');
+  const navigate = useNavigate();
+  const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'grades' | 'subjects' | 'chapters' | 'quiz' | 'quiz-interface'>('home');
   const [user, setUser] = useState<{ name: string; grade: string; school?: string } | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<any>(null);
 
   const handleLogin = (userData: { name: string; grade: string; school?: string }) => {
     setUser(userData);
-    setCurrentView('dashboard');
+    setCurrentView('grades');
   };
 
   const handleLogout = () => {
@@ -26,18 +31,18 @@ const Index = () => {
   const handleSelectQuiz = (quiz: any) => {
     console.log('Quiz selected:', quiz);
     setSelectedQuiz(quiz);
-    setCurrentView('quiz');
+    setCurrentView('quiz-interface');
   };
 
   const handleQuizComplete = (result: any) => {
     console.log('Quiz completed with result:', result);
     setSelectedQuiz(null);
-    setCurrentView('dashboard');
+    setCurrentView('grades');
   };
 
-  const handleBackToDashboard = () => {
+  const handleBackToGrades = () => {
     setSelectedQuiz(null);
-    setCurrentView('dashboard');
+    setCurrentView('grades');
   };
 
   if (currentView === 'login') {
@@ -64,28 +69,33 @@ const Index = () => {
     );
   }
 
-  if (currentView === 'quiz' && selectedQuiz && user) {
+  if (currentView === 'quiz-interface' && selectedQuiz && user) {
     return (
       <QuizInterface 
         quiz={selectedQuiz}
         user={user}
         onComplete={handleQuizComplete}
-        onBack={handleBackToDashboard}
+        onBack={handleBackToGrades}
       />
     );
   }
 
-  if (currentView === 'dashboard' && user) {
-    return (
-      <QuizDashboard 
-        user={user} 
-        onLogout={handleLogout}
-        onSelectQuiz={handleSelectQuiz}
-      />
-    );
+  if (currentView === 'grades' && user) {
+    return <GradeSelection user={user} onLogout={handleLogout} />;
   }
 
-  
+  if (currentView === 'subjects' && user) {
+    return <SubjectSelection user={user} />;
+  }
+
+  if (currentView === 'chapters' && user) {
+    return <ChaptersPage user={user} />;
+  }
+
+  if (currentView === 'quiz' && user) {
+    return <QuizPage user={user} onStartQuiz={handleSelectQuiz} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
@@ -97,7 +107,7 @@ const Index = () => {
             Advanced Learning Platform for Ethiopian Students
           </p>
           <div className="text-lg text-purple-200">
-            Grades 1-12 • Interactive Quizzes • Progress Tracking
+            Grades 9-12 • Interactive Quizzes • Progress Tracking
           </div>
         </div>
 
@@ -148,7 +158,7 @@ const Index = () => {
               <div className="text-sm">Subjects</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-purple-400">12</div>
+              <div className="text-2xl font-bold text-purple-400">4</div>
               <div className="text-sm">Grade Levels</div>
             </div>
             <div>
