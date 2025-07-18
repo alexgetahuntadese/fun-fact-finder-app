@@ -1,89 +1,10 @@
 
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import LoginForm from "@/components/LoginForm";
-import RegisterForm from "@/components/RegisterForm";
-import QuizDashboard from "@/components/QuizDashboard";
-import QuizInterface from "@/components/QuizInterface";
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'dashboard' | 'quiz'>('home');
-  const [user, setUser] = useState<{ name: string; grade: string; school?: string } | null>(null);
-  const [selectedQuiz, setSelectedQuiz] = useState<any>(null);
-
-  const handleLogin = (userData: { name: string; grade: string; school?: string }) => {
-    setUser(userData);
-    setCurrentView('dashboard');
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    setSelectedQuiz(null);
-    setCurrentView('home');
-  };
-
-  const handleSelectQuiz = (quiz: any) => {
-    console.log('Quiz selected:', quiz);
-    setSelectedQuiz(quiz);
-    setCurrentView('quiz');
-  };
-
-  const handleQuizComplete = (result: any) => {
-    console.log('Quiz completed with result:', result);
-    setSelectedQuiz(null);
-    setCurrentView('dashboard');
-  };
-
-  const handleBackToDashboard = () => {
-    setSelectedQuiz(null);
-    setCurrentView('dashboard');
-  };
-
-  if (currentView === 'login') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
-        <LoginForm 
-          onLogin={handleLogin} 
-          onSwitchToRegister={() => setCurrentView('register')}
-          onBack={() => setCurrentView('home')} 
-        />
-      </div>
-    );
-  }
-
-  if (currentView === 'register') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
-        <RegisterForm 
-          onRegister={handleLogin} 
-          onSwitchToLogin={() => setCurrentView('login')}
-          onBack={() => setCurrentView('home')} 
-        />
-      </div>
-    );
-  }
-
-  if (currentView === 'quiz' && selectedQuiz && user) {
-    return (
-      <QuizInterface 
-        quiz={selectedQuiz}
-        user={user}
-        onComplete={handleQuizComplete}
-        onBack={handleBackToDashboard}
-      />
-    );
-  }
-
-  if (currentView === 'dashboard' && user) {
-    return (
-      <QuizDashboard 
-        user={user} 
-        onLogout={handleLogout}
-        onSelectQuiz={handleSelectQuiz}
-      />
-    );
-  }
+  const navigate = useNavigate();
 
   
   return (
@@ -104,34 +25,34 @@ const Index = () => {
         <div className="grid md:grid-cols-2 gap-8">
           <Card className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300">
             <CardHeader>
-              <CardTitle className="text-white text-2xl">New Student?</CardTitle>
+              <CardTitle className="text-white text-2xl">Ready to Learn?</CardTitle>
               <CardDescription className="text-blue-200">
-                Join thousands of Ethiopian students preparing for their future
+                Start your educational journey with interactive quizzes
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button 
-                onClick={() => setCurrentView('register')}
+                onClick={() => navigate('/grades')}
                 className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3"
               >
-                Create Account
+                Start Learning
               </Button>
             </CardContent>
           </Card>
 
           <Card className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300">
             <CardHeader>
-              <CardTitle className="text-white text-2xl">Welcome Back!</CardTitle>
+              <CardTitle className="text-white text-2xl">Explore Subjects</CardTitle>
               <CardDescription className="text-blue-200">
-                Continue your learning journey
+                Browse all available subjects and chapters
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button 
-                onClick={() => setCurrentView('login')}
+                onClick={() => navigate('/grades')}
                 className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3"
               >
-                Sign In
+                Browse Quizzes
               </Button>
             </CardContent>
           </Card>
