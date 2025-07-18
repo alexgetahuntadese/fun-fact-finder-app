@@ -6,7 +6,7 @@ import QuizCard from '@/components/mobile/QuizCard';
 
 interface QuizPageProps {
   user: { name: string; grade: string; school?: string };
-  grade: number;
+  grade: string;
   subject: string;
   chapter: string;
   onBack: () => void;
