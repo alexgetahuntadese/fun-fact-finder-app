@@ -17,9 +17,10 @@ interface Question {
 
 const QuizPage = () => {
   const navigate = useNavigate();
-  const { grade, subject, chapterId } = useParams();
+  const { grade, subject, chapterId, difficulty } = useParams();
   const decodedSubject = decodeURIComponent(subject || '');
   const decodedChapter = decodeURIComponent(chapterId || '');
+  const selectedDifficulty = decodeURIComponent(difficulty || '') as 'Easy' | 'Medium' | 'Hard';
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,11 +37,26 @@ const QuizPage = () => {
   useEffect(() => {
     const initializeQuestions = () => {
       if (decodedSubject === 'Mathematics' && grade === '12' && grade12Mathematics[decodedChapter]) {
-        // Get all questions from the chapter and shuffle them
+        // Get questions from the chapter filtered by difficulty
         const chapterQuestions = grade12Mathematics[decodedChapter];
-        const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
-        // Take first 10 questions for the quiz
-        return shuffled.slice(0, 10).map((q, index) => ({
+        const filteredQuestions = chapterQuestions.filter(q => q.difficulty === selectedDifficulty);
+        
+        if (filteredQuestions.length === 0) {
+          // Fallback to all questions if no questions found for selected difficulty
+          const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
+          return shuffled.slice(0, 10).map((q, index) => ({
+            id: index + 1,
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.options.indexOf(q.correct),
+            explanation: q.explanation
+          }));
+        }
+        
+        // Shuffle and take up to 10 questions from the selected difficulty
+        const shuffled = [...filteredQuestions].sort(() => Math.random() - 0.5);
+        const questionsToTake = Math.min(10, shuffled.length);
+        return shuffled.slice(0, questionsToTake).map((q, index) => ({
           id: index + 1,
           question: q.question,
           options: q.options,
@@ -93,7 +109,7 @@ const QuizPage = () => {
     setQuestions(quizQuestions);
     setAnswers(new Array(quizQuestions.length).fill(null));
     setIsLoading(false); // Mark loading as complete
-  }, [decodedSubject, grade, decodedChapter]);
+  }, [decodedSubject, grade, decodedChapter, selectedDifficulty]);
 
   useEffect(() => {
     if (timeLeft > 0 && !quizCompleted) {
@@ -179,8 +195,22 @@ const QuizPage = () => {
     const initializeQuestions = () => {
       if (decodedSubject === 'Mathematics' && grade === '12' && grade12Mathematics[decodedChapter]) {
         const chapterQuestions = grade12Mathematics[decodedChapter];
-        const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
-        return shuffled.slice(0, 10).map((q, index) => ({
+        const filteredQuestions = chapterQuestions.filter(q => q.difficulty === selectedDifficulty);
+        
+        if (filteredQuestions.length === 0) {
+          const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
+          return shuffled.slice(0, 10).map((q, index) => ({
+            id: index + 1,
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.options.indexOf(q.correct),
+            explanation: q.explanation
+          }));
+        }
+        
+        const shuffled = [...filteredQuestions].sort(() => Math.random() - 0.5);
+        const questionsToTake = Math.min(10, shuffled.length);
+        return shuffled.slice(0, questionsToTake).map((q, index) => ({
           id: index + 1,
           question: q.question,
           options: q.options,
@@ -256,7 +286,7 @@ const QuizPage = () => {
             </div>
             <h1 className="text-5xl font-bold text-white mb-4">Quiz Complete!</h1>
             <p className="text-xl text-blue-200">
-              {decodedSubject} • {decodedChapter} • Grade {grade}
+              {decodedSubject} • {decodedChapter} • {selectedDifficulty} • Grade {grade}
             </p>
           </div>
 
@@ -348,6 +378,9 @@ const QuizPage = () => {
           </Button>
           
           <div className="flex items-center space-x-4 text-white">
+            <Badge variant="secondary" className="bg-white/20 text-white">
+              {selectedDifficulty} Level
+            </Badge>
             <div className="flex items-center">
               <Clock className="mr-2 h-4 w-4" />
               <span className="font-mono text-lg">{formatTime(timeLeft)}</span>
@@ -370,7 +403,7 @@ const QuizPage = () => {
           <CardHeader>
             <div className="flex items-center justify-between">
             <CardDescription className="text-blue-200">
-              {decodedSubject} • {decodedChapter} • Grade {grade}
+              {decodedSubject} • {decodedChapter} • {selectedDifficulty} Level • Grade {grade}
             </CardDescription>
             </div>
             <CardTitle className="text-white text-2xl leading-relaxed">

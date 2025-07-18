@@ -29,6 +29,11 @@ const ChaptersPage = () => {
           progress: Math.floor(Math.random() * 101), // Random progress for demo
           isCompleted: Math.random() > 0.7, // Random completion status
           questionsCount: questions.length,
+          difficultyBreakdown: {
+            easy: easyQuestions,
+            medium: mediumQuestions,
+            hard: hardQuestions
+          }
         };
       });
     }
@@ -44,6 +49,7 @@ const ChaptersPage = () => {
         progress: 100,
         isCompleted: true,
         questionsCount: 25,
+        difficultyBreakdown: { easy: 10, medium: 10, hard: 5 }
       },
       {
         id: 2,
@@ -54,6 +60,7 @@ const ChaptersPage = () => {
         progress: 75,
         isCompleted: false,
         questionsCount: 30,
+        difficultyBreakdown: { easy: 12, medium: 12, hard: 6 }
       },
       {
         id: 3,
@@ -64,6 +71,7 @@ const ChaptersPage = () => {
         progress: 45,
         isCompleted: false,
         questionsCount: 35,
+        difficultyBreakdown: { easy: 10, medium: 15, hard: 10 }
       },
       {
         id: 4,
@@ -74,6 +82,7 @@ const ChaptersPage = () => {
         progress: 0,
         isCompleted: false,
         questionsCount: 28,
+        difficultyBreakdown: { easy: 8, medium: 12, hard: 8 }
       },
       {
         id: 5,
@@ -84,6 +93,7 @@ const ChaptersPage = () => {
         progress: 0,
         isCompleted: false,
         questionsCount: 22,
+        difficultyBreakdown: { easy: 8, medium: 10, hard: 4 }
       },
       {
         id: 6,
@@ -94,6 +104,7 @@ const ChaptersPage = () => {
         progress: 0,
         isCompleted: false,
         questionsCount: 20,
+        difficultyBreakdown: { easy: 10, medium: 8, hard: 2 }
       },
     ];
   };
@@ -138,9 +149,10 @@ const ChaptersPage = () => {
     return 'text-red-500';
   };
 
-  const handleStartQuiz = (chapterId: number, chapterTitle: string) => {
+  const handleStartQuiz = (chapterId: number, chapterTitle: string, difficulty: 'Easy' | 'Medium' | 'Hard') => {
     const chapterSlug = encodeURIComponent(chapterTitle);
-    navigate(`/grade/${grade}/subject/${encodeURIComponent(decodedSubject)}/chapter/${chapterSlug}/quiz`);
+    const difficultySlug = encodeURIComponent(difficulty);
+    navigate(`/grade/${grade}/subject/${encodeURIComponent(decodedSubject)}/chapter/${chapterSlug}/difficulty/${difficultySlug}/quiz`);
   };
 
   const overallProgress = Math.round(chapters.reduce((acc, chapter) => acc + chapter.progress, 0) / chapters.length);
@@ -219,6 +231,25 @@ const ChaptersPage = () => {
                   </div>
                 </div>
 
+                {/* Difficulty Breakdown */}
+                <div className="bg-white/5 rounded-lg p-3 space-y-2">
+                  <h4 className="text-white font-medium text-sm">Questions by Difficulty</h4>
+                  <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="text-center">
+                      <div className="text-green-400 font-bold">{chapter.difficultyBreakdown.easy}</div>
+                      <div className="text-gray-400">Easy</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-yellow-400 font-bold">{chapter.difficultyBreakdown.medium}</div>
+                      <div className="text-gray-400">Medium</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-red-400 font-bold">{chapter.difficultyBreakdown.hard}</div>
+                      <div className="text-gray-400">Hard</div>
+                    </div>
+                  </div>
+                </div>
+
                 {chapter.progress > 0 && (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
@@ -231,13 +262,36 @@ const ChaptersPage = () => {
                   </div>
                 )}
                 
-                <Button 
-                  className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white"
-                  onClick={() => handleStartQuiz(chapter.id, chapter.title)}
-                >
-                  {chapter.progress > 0 ? 'Continue Quiz' : 'Start Quiz'}
-                  <Play className="ml-2 h-4 w-4" />
-                </Button>
+                {/* Difficulty Selection Buttons */}
+                <div className="space-y-2">
+                  <h4 className="text-white font-medium text-sm">Choose Difficulty</h4>
+                  <div className="grid grid-cols-3 gap-2">
+                    <Button 
+                      size="sm"
+                      className="bg-green-600 hover:bg-green-700 text-white"
+                      onClick={() => handleStartQuiz(chapter.id, chapter.title, 'Easy')}
+                      disabled={chapter.difficultyBreakdown.easy === 0}
+                    >
+                      Easy
+                    </Button>
+                    <Button 
+                      size="sm"
+                      className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                      onClick={() => handleStartQuiz(chapter.id, chapter.title, 'Medium')}
+                      disabled={chapter.difficultyBreakdown.medium === 0}
+                    >
+                      Medium
+                    </Button>
+                    <Button 
+                      size="sm"
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                      onClick={() => handleStartQuiz(chapter.id, chapter.title, 'Hard')}
+                      disabled={chapter.difficultyBreakdown.hard === 0}
+                    >
+                      Hard
+                    </Button>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           ))}
