@@ -40,10 +40,10 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4">
         <div className="max-w-md mx-auto">
           <div className="flex items-center justify-center py-8">
-            <div className="text-lg">Loading subjects...</div>
+            <div className="text-lg text-white">Loading subjects...</div>
           </div>
         </div>
       </div>
@@ -52,19 +52,22 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4">
         <div className="max-w-md mx-auto">
           <Button
             onClick={onBack}
             variant="ghost"
-            className="mb-6 text-gray-600 hover:text-gray-800"
+            className="mb-6 text-white hover:text-gray-200 hover:bg-white/20"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Grades
           </Button>
           <div className="text-center py-8">
-            <div className="text-red-600 mb-4">{error}</div>
-            <Button onClick={() => window.location.reload()}>
+            <div className="text-red-400 mb-4">{error}</div>
+            <Button 
+              onClick={() => window.location.reload()}
+              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white"
+            >
               Try Again
             </Button>
           </div>
@@ -74,23 +77,23 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 p-4">
       <div className="max-w-md mx-auto">
         <Button
           onClick={onBack}
           variant="ghost"
-          className="mb-6 text-gray-600 hover:text-gray-800"
+          className="mb-6 text-white hover:text-gray-200 hover:bg-white/20"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Grades
         </Button>
 
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold text-white mb-2">
             Choose Your Subject
           </h1>
-          <p className="text-gray-600">
-            Select a subject for {grade}
+          <p className="text-blue-200">
+            Select a subject for Grade {grade}
           </p>
         </div>
 
@@ -98,14 +101,14 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
           {subjects.map((subject) => (
             <Card
               key={subject.id}
-              className="cursor-pointer hover:shadow-md transition-all duration-200"
+              className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer"
               onClick={() => onSubjectSelect(subject.name)}
             >
               <CardContent className="p-4">
-                <h3 className="font-semibold text-gray-900 mb-2">
+                <h3 className="font-semibold text-white mb-2">
                   {subject.name}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-blue-200">
                   {subject.description || `Study ${subject.name} concepts and practice questions`}
                 </p>
               </CardContent>

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -33,8 +34,8 @@ const Index = () => {
     setCurrentView('home');
   };
 
-  const handleGradeSelect = (grade: number) => {
-    setSelectedGrade(grade.toString());
+  const handleGradeSelect = (grade: string) => {
+    setSelectedGrade(grade);
     setCurrentView('subjects');
   };
 
