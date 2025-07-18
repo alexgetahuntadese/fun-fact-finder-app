@@ -25,6 +25,7 @@ const QuizPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showExplanation, setShowExplanation] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>([]);
@@ -118,18 +119,24 @@ const QuizPage = () => {
   };
 
   const handleAnswerSelect = (answerIndex: number) => {
-    setSelectedAnswer(answerIndex);
+    if (!showExplanation) {
+      setSelectedAnswer(answerIndex);
+    }
   };
 
   const handleNext = () => {
-    if (selectedAnswer !== null) {
+    if (selectedAnswer !== null && !showExplanation) {
+      // Show explanation first
       const newAnswers = [...answers];
       newAnswers[currentQuestion] = selectedAnswer;
       setAnswers(newAnswers);
-
+      setShowExplanation(true);
+    } else if (showExplanation) {
+      // Move to next question or complete quiz
       if (currentQuestion < questions.length - 1) {
         setCurrentQuestion(currentQuestion + 1);
         setSelectedAnswer(answers[currentQuestion + 1]);
+        setShowExplanation(false);
       } else {
         handleQuizComplete();
       }
@@ -137,7 +144,7 @@ const QuizPage = () => {
   };
 
   const handlePrevious = () => {
-    if (currentQuestion > 0) {
+    if (currentQuestion > 0 && !showExplanation) {
       setCurrentQuestion(currentQuestion - 1);
       setSelectedAnswer(answers[currentQuestion - 1]);
     }
@@ -162,6 +169,7 @@ const QuizPage = () => {
     setIsLoading(true);
     setCurrentQuestion(0);
     setSelectedAnswer(null);
+    setShowExplanation(false);
     setShowResult(false);
     setScore(0);
     setTimeLeft(1800);
@@ -194,6 +202,33 @@ const QuizPage = () => {
     if (percentage >= 80) return 'text-green-500';
     if (percentage >= 60) return 'text-yellow-500';
     return 'text-red-500';
+  };
+
+  const getAnswerStatus = (answerIndex: number) => {
+    const correctAnswer = questions[currentQuestion]?.correctAnswer;
+    const isCorrect = answerIndex === correctAnswer;
+    const isSelected = answerIndex === selectedAnswer;
+    
+    if (!showExplanation) {
+      return isSelected ? 'selected' : 'default';
+    }
+    
+    if (isCorrect) return 'correct';
+    if (isSelected && !isCorrect) return 'incorrect';
+    return 'default';
+  };
+
+  const getAnswerStyle = (status: string) => {
+    switch (status) {
+      case 'correct':
+        return 'border-green-500 bg-green-500/20 text-green-300';
+      case 'incorrect':
+        return 'border-red-500 bg-red-500/20 text-red-300';
+      case 'selected':
+        return 'border-blue-500 bg-blue-500/20 text-white';
+      default:
+        return 'border-white/20 bg-white/10 text-gray-300 hover:border-white/40 hover:bg-white/20';
+    }
   };
 
   const progress = questions.length > 0 ? ((currentQuestion + 1) / questions.length) * 100 : 0;
@@ -254,7 +289,23 @@ const QuizPage = () => {
                 </div>
               </div>
             </CardContent>
+        </Card>
+
+        {showExplanation && (
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 mb-8">
+            <CardHeader>
+              <CardTitle className="text-white text-xl flex items-center">
+                <CheckCircle className="mr-2 h-5 w-5 text-green-500" />
+                Explanation
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-blue-200 leading-relaxed">
+                {questions[currentQuestion]?.explanation}
+              </p>
+            </CardContent>
           </Card>
+        )}
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -328,22 +379,22 @@ const QuizPage = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {questions[currentQuestion]?.options?.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswerSelect(index)}
-                  className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 ${
-                    selectedAnswer === index
-                      ? 'border-blue-500 bg-blue-500/20 text-white'
-                      : 'border-white/20 bg-white/10 text-gray-300 hover:border-white/40 hover:bg-white/20'
-                  }`}
-                >
-                  <span className="font-medium mr-3">
-                    {String.fromCharCode(65 + index)}.
-                  </span>
-                  {option}
-                </button>
-              )) || <p className="text-white">Loading options...</p>}
+              {questions[currentQuestion]?.options?.map((option, index) => {
+                const status = getAnswerStatus(index);
+                return (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswerSelect(index)}
+                    disabled={showExplanation}
+                    className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 ${getAnswerStyle(status)} ${showExplanation ? 'cursor-default' : 'cursor-pointer'}`}
+                  >
+                    <span className="font-medium mr-3">
+                      {String.fromCharCode(65 + index)}.
+                    </span>
+                    {option}
+                  </button>
+                );
+              }) || <p className="text-white">Loading options...</p>}
             </div>
           </CardContent>
         </Card>
@@ -351,7 +402,7 @@ const QuizPage = () => {
         <div className="flex justify-between">
           <Button 
             onClick={handlePrevious}
-            disabled={currentQuestion === 0}
+            disabled={currentQuestion === 0 || showExplanation}
             variant="outline"
             className="bg-white/10 border-white/20 text-white hover:bg-white/20 disabled:opacity-50"
           >
@@ -363,7 +414,10 @@ const QuizPage = () => {
             disabled={selectedAnswer === null}
             className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white disabled:opacity-50"
           >
-            {currentQuestion === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+            {showExplanation 
+              ? (currentQuestion === questions.length - 1 ? 'Finish Quiz' : 'Next Question')
+              : 'Show Answer'
+            }
           </Button>
         </div>
       </div>
