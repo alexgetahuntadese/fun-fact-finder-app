@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -52,7 +51,6 @@ const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => 
   const [selectedSubject, setSelectedSubject] = useState('all');
   const [expandedGrades, setExpandedGrades] = useState<number[]>([]);
   const isMobile = useIsMobile();
-  const navigate = useNavigate();
 
   const toggleGrade = (gradeNumber: number) => {
     setExpandedGrades(prev => 
@@ -60,17 +58,6 @@ const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => 
         ? prev.filter(g => g !== gradeNumber)
         : [...prev, gradeNumber]
     );
-  };
-
-  const handleGradeCardClick = (gradeNumber: number, event: React.MouseEvent) => {
-    // Check if the click is on the chevron (CollapsibleTrigger)
-    const target = event.target as HTMLElement;
-    const isChevronClick = target.closest('[data-state]'); // CollapsibleTrigger has data-state attribute
-    
-    if (!isChevronClick) {
-      // Navigate to the grade page
-      navigate(`/grade/${gradeNumber}`);
-    }
   };
 
   const gradeCards = [
@@ -658,25 +645,14 @@ const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => 
               </div>
             </div>
             
-            <div className="flex items-center space-x-3">
-              {user.grade === '12' && (
-                <Button 
-                  variant="outline" 
-                  onClick={() => window.location.href = '/?view=mobile-subjects'}
-                  className="border-white/20 text-white hover:bg-white/10 md:hidden"
-                >
-                  📱 Mobile View
-                </Button>
-              )}
-              <Button 
-                variant="outline" 
-                onClick={onLogout}
-                className="border-white/20 text-white hover:bg-white/10"
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
-              </Button>
-            </div>
+            <Button 
+              variant="outline" 
+              onClick={onLogout}
+              className="border-white/20 text-white hover:bg-white/10"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Logout
+            </Button>
           </div>
         </header>
 
@@ -708,51 +684,42 @@ const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => 
                   open={expandedGrades.includes(grade.grade)}
                   onOpenChange={() => toggleGrade(grade.grade)}
                 >
-                  <Card 
-                    className="bg-white/5 border-white/20 text-white hover:bg-white/10 transition-all duration-300 group cursor-pointer"
-                    onClick={(e) => handleGradeCardClick(grade.grade, e)}
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className={`p-3 rounded-lg bg-gradient-to-r ${grade.color}`}>
-                          <GraduationCap className="h-6 w-6 text-white" />
-                        </div>
-                        <CollapsibleTrigger asChild>
-                          <Button variant="ghost" size="sm" className="p-2">
-                            {expandedGrades.includes(grade.grade) ? 
-                              <ChevronDown className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" /> :
-                              <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" />
-                            }
-                          </Button>
-                        </CollapsibleTrigger>
-                      </div>
-                      
-                      <h3 className="text-xl font-bold mb-2">{grade.title}</h3>
-                      <p className="text-sm text-gray-400 mb-4">{grade.description}</p>
-                      
-                      <div className="space-y-3">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-400">Subjects:</span>
-                          <span className="font-medium">{grade.subjects}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-400">Quizzes:</span>
-                          <span className="font-medium">{grade.quizzes}</span>
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-400">Progress:</span>
-                            <span className="font-medium">{grade.progress}%</span>
+                  <CollapsibleTrigger asChild>
+                    <Card className="bg-white/5 border-white/20 text-white hover:bg-white/10 transition-all duration-300 group cursor-pointer">
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className={`p-3 rounded-lg bg-gradient-to-r ${grade.color}`}>
+                            <GraduationCap className="h-6 w-6 text-white" />
                           </div>
-                          <Progress value={grade.progress} className="h-2" />
+                          {expandedGrades.includes(grade.grade) ? 
+                            <ChevronDown className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" /> :
+                            <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" />
+                          }
                         </div>
-                      </div>
-                      
-                      <div className="mt-4 text-xs text-gray-500">
-                        Click to view all subjects • Use arrow to expand preview
-                      </div>
-                    </CardContent>
-                  </Card>
+                        
+                        <h3 className="text-xl font-bold mb-2">{grade.title}</h3>
+                        <p className="text-sm text-gray-400 mb-4">{grade.description}</p>
+                        
+                        <div className="space-y-3">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-400">Subjects:</span>
+                            <span className="font-medium">{grade.subjects}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-400">Quizzes:</span>
+                            <span className="font-medium">{grade.quizzes}</span>
+                          </div>
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-sm">
+                              <span className="text-gray-400">Progress:</span>
+                              <span className="font-medium">{grade.progress}%</span>
+                            </div>
+                            <Progress value={grade.progress} className="h-2" />
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CollapsibleTrigger>
                   
                   <CollapsibleContent className="space-y-4">
                     <div className="ml-8 mt-4">
