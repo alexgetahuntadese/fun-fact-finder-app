@@ -1,39 +1,31 @@
 
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, BookOpen, Sparkles } from 'lucide-react';
 import SubjectCardMobile from '@/components/mobile/SubjectCardMobile';
 import { 
   Calculator, 
-  Microscope, 
-  Globe, 
-  Atom, 
+  BookA, 
+  Laptop,
+  Scale,
   Dna, 
   FlaskConical, 
-  Zap, 
-  Ruler,
+  Zap,
   MapPin,
   Clock8,
   DollarSign,
-  Briefcase,
-  BookA,
-  Scale,
   Activity,
-  Laptop,
   Languages
 } from 'lucide-react';
 
 interface SubjectSelectionProps {
   user: { name: string; grade: string; school?: string };
+  grade: number;
+  onBack: () => void;
+  onSubjectSelect: (subject: string) => void;
 }
 
-const SubjectSelection: React.FC<SubjectSelectionProps> = ({ user }) => {
-  const navigate = useNavigate();
-  const { grade } = useParams<{ grade: string }>();
-  
-  const gradeNumber = parseInt(grade || '9');
-
+const SubjectSelection: React.FC<SubjectSelectionProps> = ({ user, grade, onBack, onSubjectSelect }) => {
   const getSubjectData = (grade: number) => {
     switch (grade) {
       case 9:
@@ -91,7 +83,7 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({ user }) => {
     }
   };
 
-  const subjects = getSubjectData(gradeNumber);
+  const subjects = getSubjectData(grade);
 
   const getSubjectProgress = (subjectName: string) => {
     const mockData = {
@@ -105,10 +97,6 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({ user }) => {
       'Economics': { completed: 5, total: 9, percentage: 56 }
     };
     return mockData[subjectName as keyof typeof mockData] || { completed: 0, total: 10, percentage: 0 };
-  };
-
-  const handleSubjectSelect = (subject: any) => {
-    navigate(`/chapters/${grade}/${subject.name.toLowerCase().replace(/\s+/g, '-')}`);
   };
 
   const getGreeting = () => {
@@ -136,7 +124,7 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({ user }) => {
             <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost" 
-                onClick={() => navigate('/grades')}
+                onClick={onBack}
                 className="text-white hover:bg-white/10"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -170,8 +158,8 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({ user }) => {
                 key={index}
                 subject={subject}
                 progress={getSubjectProgress(subject.name)}
-                grade={gradeNumber}
-                onSelect={() => handleSubjectSelect(subject)}
+                grade={grade}
+                onSelect={() => onSubjectSelect(subject.name)}
               />
             ))}
           </div>

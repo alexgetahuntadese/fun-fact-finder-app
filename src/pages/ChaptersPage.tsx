@@ -1,20 +1,20 @@
 
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { ArrowLeft, BookOpen, Trophy, Target, Sparkles } from 'lucide-react';
+import { ArrowLeft, BookOpen, Trophy, Sparkles } from 'lucide-react';
 import ChapterListItem from '@/components/mobile/ChapterListItem';
 
 interface ChaptersPageProps {
   user: { name: string; grade: string; school?: string };
+  grade: number;
+  subject: string;
+  onBack: () => void;
+  onChapterSelect: (chapter: string) => void;
 }
 
-const ChaptersPage: React.FC<ChaptersPageProps> = ({ user }) => {
-  const navigate = useNavigate();
-  const { grade, subject } = useParams<{ grade: string; subject: string }>();
-  
-  const subjectName = subject?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || '';
+const ChaptersPage: React.FC<ChaptersPageProps> = ({ user, grade, subject, onBack, onChapterSelect }) => {
+  const subjectName = subject.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   
   // Mock chapter data based on subject
   const getChapterData = (subject: string) => {
@@ -50,18 +50,17 @@ const ChaptersPage: React.FC<ChaptersPageProps> = ({ user }) => {
   const chapters = getChapterData(subjectName);
   
   const getChapterProgress = (index: number) => {
-    // Mock progress data
     if (index < 3) return Math.floor(Math.random() * 100);
     if (index < 5) return Math.floor(Math.random() * 50);
     return 0;
   };
 
   const isChapterCompleted = (index: number) => {
-    return index < 2; // First 2 chapters completed
+    return index < 2;
   };
 
   const isChapterLocked = (index: number) => {
-    return index > 5; // Lock chapters after 5th one
+    return index > 5;
   };
 
   const getDifficulty = (index: number): 'Easy' | 'Medium' | 'Hard' => {
@@ -73,10 +72,6 @@ const ChaptersPage: React.FC<ChaptersPageProps> = ({ user }) => {
   const getEstimatedTime = (index: number) => {
     const times = ['15 min', '20 min', '25 min', '30 min', '35 min', '40 min', '45 min', '50 min'];
     return times[index % times.length];
-  };
-
-  const handleChapterSelect = (chapterIndex: number) => {
-    navigate(`/quiz/${grade}/${subject}/${chapterIndex}`);
   };
 
   const overallProgress = Math.round((chapters.filter((_, index) => isChapterCompleted(index)).length / chapters.length) * 100);
@@ -104,7 +99,7 @@ const ChaptersPage: React.FC<ChaptersPageProps> = ({ user }) => {
             <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost" 
-                onClick={() => navigate(`/subjects/${grade}`)}
+                onClick={onBack}
                 className="text-white hover:bg-white/10"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -188,7 +183,7 @@ const ChaptersPage: React.FC<ChaptersPageProps> = ({ user }) => {
                 progress={getChapterProgress(index)}
                 estimatedTime={getEstimatedTime(index)}
                 difficulty={getDifficulty(index)}
-                onSelect={() => handleChapterSelect(index)}
+                onSelect={() => onChapterSelect(chapter)}
               />
             ))}
           </div>

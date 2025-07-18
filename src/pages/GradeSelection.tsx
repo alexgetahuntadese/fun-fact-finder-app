@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { LogOut, Sparkles, TrendingUp } from 'lucide-react';
@@ -9,11 +8,10 @@ import GradeCard from '@/components/mobile/GradeCard';
 interface GradeSelectionProps {
   user: { name: string; grade: string; school?: string };
   onLogout: () => void;
+  onGradeSelect: (grade: number) => void;
 }
 
-const GradeSelection: React.FC<GradeSelectionProps> = ({ user, onLogout }) => {
-  const navigate = useNavigate();
-
+const GradeSelection: React.FC<GradeSelectionProps> = ({ user, onLogout, onGradeSelect }) => {
   const gradeCards = [
     {
       grade: 9,
@@ -48,10 +46,6 @@ const GradeSelection: React.FC<GradeSelectionProps> = ({ user, onLogout }) => {
       color: 'from-orange-500 to-red-500'
     }
   ];
-
-  const handleGradeSelect = (grade: number) => {
-    navigate(`/subjects/${grade}`);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
@@ -143,7 +137,7 @@ const GradeSelection: React.FC<GradeSelectionProps> = ({ user, onLogout }) => {
                   subjects={grade.subjects}
                   progress={grade.progress}
                   color={grade.color}
-                  onSelect={() => handleGradeSelect(grade.grade)}
+                  onSelect={() => onGradeSelect(grade.grade)}
                 />
               ))}
             </div>

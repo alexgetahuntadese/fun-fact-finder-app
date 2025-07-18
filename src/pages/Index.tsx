@@ -16,6 +16,9 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'grades' | 'subjects' | 'chapters' | 'quiz' | 'quiz-interface'>('home');
   const [user, setUser] = useState<{ name: string; grade: string; school?: string } | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<any>(null);
+  const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+  const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
 
   const handleLogin = (userData: { name: string; grade: string; school?: string }) => {
     setUser(userData);
@@ -25,7 +28,25 @@ const Index = () => {
   const handleLogout = () => {
     setUser(null);
     setSelectedQuiz(null);
+    setSelectedGrade(null);
+    setSelectedSubject(null);
+    setSelectedChapter(null);
     setCurrentView('home');
+  };
+
+  const handleGradeSelect = (grade: number) => {
+    setSelectedGrade(grade);
+    setCurrentView('subjects');
+  };
+
+  const handleSubjectSelect = (subject: string) => {
+    setSelectedSubject(subject);
+    setCurrentView('chapters');
+  };
+
+  const handleChapterSelect = (chapter: string) => {
+    setSelectedChapter(chapter);
+    setCurrentView('quiz');
   };
 
   const handleSelectQuiz = (quiz: any) => {
@@ -42,7 +63,21 @@ const Index = () => {
 
   const handleBackToGrades = () => {
     setSelectedQuiz(null);
+    setSelectedGrade(null);
+    setSelectedSubject(null);
+    setSelectedChapter(null);
     setCurrentView('grades');
+  };
+
+  const handleBackToSubjects = () => {
+    setSelectedSubject(null);
+    setSelectedChapter(null);
+    setCurrentView('subjects');
+  };
+
+  const handleBackToChapters = () => {
+    setSelectedChapter(null);
+    setCurrentView('chapters');
   };
 
   if (currentView === 'login') {
@@ -81,19 +116,49 @@ const Index = () => {
   }
 
   if (currentView === 'grades' && user) {
-    return <GradeSelection user={user} onLogout={handleLogout} />;
+    return (
+      <GradeSelection 
+        user={user} 
+        onLogout={handleLogout}
+        onGradeSelect={handleGradeSelect}
+      />
+    );
   }
 
-  if (currentView === 'subjects' && user) {
-    return <SubjectSelection user={user} />;
+  if (currentView === 'subjects' && user && selectedGrade) {
+    return (
+      <SubjectSelection 
+        user={user} 
+        grade={selectedGrade}
+        onBack={handleBackToGrades}
+        onSubjectSelect={handleSubjectSelect}
+      />
+    );
   }
 
-  if (currentView === 'chapters' && user) {
-    return <ChaptersPage user={user} />;
+  if (currentView === 'chapters' && user && selectedGrade && selectedSubject) {
+    return (
+      <ChaptersPage 
+        user={user}
+        grade={selectedGrade}
+        subject={selectedSubject}
+        onBack={handleBackToSubjects}
+        onChapterSelect={handleChapterSelect}
+      />
+    );
   }
 
-  if (currentView === 'quiz' && user) {
-    return <QuizPage user={user} onStartQuiz={handleSelectQuiz} />;
+  if (currentView === 'quiz' && user && selectedGrade && selectedSubject && selectedChapter) {
+    return (
+      <QuizPage 
+        user={user}
+        grade={selectedGrade}
+        subject={selectedSubject}
+        chapter={selectedChapter}
+        onBack={handleBackToChapters}
+        onStartQuiz={handleSelectQuiz}
+      />
+    );
   }
 
   return (

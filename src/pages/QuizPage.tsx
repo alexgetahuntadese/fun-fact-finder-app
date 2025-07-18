@@ -1,29 +1,21 @@
 
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Target, Trophy, Clock, BookOpen, Sparkles } from 'lucide-react';
 import QuizCard from '@/components/mobile/QuizCard';
 
 interface QuizPageProps {
   user: { name: string; grade: string; school?: string };
+  grade: number;
+  subject: string;
+  chapter: string;
+  onBack: () => void;
   onStartQuiz: (quiz: any) => void;
 }
 
-const QuizPage: React.FC<QuizPageProps> = ({ user, onStartQuiz }) => {
-  const navigate = useNavigate();
-  const { grade, subject, chapter } = useParams<{ grade: string; subject: string; chapter: string }>();
-  
-  const subjectName = subject?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || '';
-  const chapterIndex = parseInt(chapter || '0');
-  
-  // Mock chapter names
-  const chapterNames = [
-    'Introduction', 'Fundamentals', 'Advanced Concepts', 'Applications',
-    'Practice', 'Review', 'Assessment', 'Projects'
-  ];
-  
-  const chapterName = chapterNames[chapterIndex] || 'Chapter ' + (chapterIndex + 1);
+const QuizPage: React.FC<QuizPageProps> = ({ user, grade, subject, chapter, onBack, onStartQuiz }) => {
+  const subjectName = subject.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const chapterName = chapter;
 
   // Generate quiz data based on chapter
   const generateQuizzes = () => {
@@ -36,7 +28,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ user, onStartQuiz }) => {
       const bestScore = Math.random() > 0.5 ? Math.floor(Math.random() * 40) + 60 : undefined;
       
       quizzes.push({
-        id: `${chapterIndex}-${difficulty}`,
+        id: `${chapter}-${difficulty}`,
         title: `${chapterName} - ${difficulty}`,
         difficulty,
         duration,
@@ -44,7 +36,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ user, onStartQuiz }) => {
         bestScore,
         subject: subjectName,
         chapter: chapterName,
-        grade: parseInt(grade || '9')
+        grade: grade
       });
     }
     
@@ -52,10 +44,6 @@ const QuizPage: React.FC<QuizPageProps> = ({ user, onStartQuiz }) => {
   };
 
   const quizzes = generateQuizzes();
-
-  const handleQuizStart = (quiz: any) => {
-    onStartQuiz(quiz);
-  };
 
   const getMotivationalMessage = () => {
     const messages = [
@@ -82,7 +70,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ user, onStartQuiz }) => {
             <div className="flex items-center space-x-4">
               <Button 
                 variant="ghost" 
-                onClick={() => navigate(`/chapters/${grade}/${subject}`)}
+                onClick={onBack}
                 className="text-white hover:bg-white/10"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -118,8 +106,8 @@ const QuizPage: React.FC<QuizPageProps> = ({ user, onStartQuiz }) => {
               <div className="flex items-center justify-center mb-2">
                 <BookOpen className="h-6 w-6 text-blue-400" />
               </div>
-              <div className="text-2xl font-bold text-white">{chapterIndex + 1}</div>
-              <div className="text-sm text-gray-400">Current Chapter</div>
+              <div className="text-2xl font-bold text-white">{grade}</div>
+              <div className="text-sm text-gray-400">Current Grade</div>
             </div>
             <div className="text-center p-4 bg-white/5 rounded-lg backdrop-blur-md">
               <div className="flex items-center justify-center mb-2">
@@ -158,7 +146,7 @@ const QuizPage: React.FC<QuizPageProps> = ({ user, onStartQuiz }) => {
                   duration={quiz.duration}
                   questions={quiz.questions}
                   bestScore={quiz.bestScore}
-                  onStart={() => handleQuizStart(quiz)}
+                  onStart={() => onStartQuiz(quiz)}
                 />
               ))}
             </div>
