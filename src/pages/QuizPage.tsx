@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Clock, CheckCircle, XCircle, Trophy, RotateCcw } from 'lucide-react';
+import { grade12Mathematics, getMathQuestionsForQuiz } from '@/data/grade12Mathematics';
 
 interface Question {
   id: number;
@@ -18,6 +19,7 @@ const QuizPage = () => {
   const navigate = useNavigate();
   const { grade, subject, chapterId } = useParams();
   const decodedSubject = decodeURIComponent(subject || '');
+  const decodedChapter = decodeURIComponent(chapterId || '');
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -27,44 +29,63 @@ const QuizPage = () => {
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
   const [quizCompleted, setQuizCompleted] = useState(false);
 
-  // Mock questions - in a real app, this would come from your data source
-  const questions: Question[] = [
-    {
-      id: 1,
-      question: "What is 2 + 3?",
-      options: ["4", "5", "6", "7"],
-      correctAnswer: 1,
-      explanation: "2 + 3 = 5. This is basic addition."
-    },
-    {
-      id: 2,
-      question: "Which number comes after 9?",
-      options: ["8", "10", "11", "12"],
-      correctAnswer: 1,
-      explanation: "The number sequence continues: 8, 9, 10, 11..."
-    },
-    {
-      id: 3,
-      question: "What is 10 - 4?",
-      options: ["5", "6", "7", "8"],
-      correctAnswer: 1,
-      explanation: "10 - 4 = 6. This is basic subtraction."
-    },
-    {
-      id: 4,
-      question: "How many sides does a triangle have?",
-      options: ["2", "3", "4", "5"],
-      correctAnswer: 1,
-      explanation: "A triangle has exactly 3 sides by definition."
-    },
-    {
-      id: 5,
-      question: "What is 3 × 2?",
-      options: ["5", "6", "7", "8"],
-      correctAnswer: 1,
-      explanation: "3 × 2 = 6. This is basic multiplication."
+  // Get questions based on subject, grade, and chapter
+  const getQuestionsForQuiz = () => {
+    if (decodedSubject === 'Mathematics' && grade === '12' && grade12Mathematics[decodedChapter]) {
+      // Get all questions from the chapter and shuffle them
+      const chapterQuestions = grade12Mathematics[decodedChapter];
+      const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
+      // Take first 10 questions for the quiz
+      return shuffled.slice(0, 10).map((q, index) => ({
+        id: index + 1,
+        question: q.question,
+        options: q.options,
+        correctAnswer: q.options.indexOf(q.correct),
+        explanation: q.explanation
+      }));
     }
-  ];
+    
+    // Default mock questions for other subjects/grades
+    return [
+      {
+        id: 1,
+        question: "What is 2 + 3?",
+        options: ["4", "5", "6", "7"],
+        correctAnswer: 1,
+        explanation: "2 + 3 = 5. This is basic addition."
+      },
+      {
+        id: 2,
+        question: "Which number comes after 9?",
+        options: ["8", "10", "11", "12"],
+        correctAnswer: 1,
+        explanation: "The number sequence continues: 8, 9, 10, 11..."
+      },
+      {
+        id: 3,
+        question: "What is 10 - 4?",
+        options: ["5", "6", "7", "8"],
+        correctAnswer: 1,
+        explanation: "10 - 4 = 6. This is basic subtraction."
+      },
+      {
+        id: 4,
+        question: "How many sides does a triangle have?",
+        options: ["2", "3", "4", "5"],
+        correctAnswer: 1,
+        explanation: "A triangle has exactly 3 sides by definition."
+      },
+      {
+        id: 5,
+        question: "What is 3 × 2?",
+        options: ["5", "6", "7", "8"],
+        correctAnswer: 1,
+        explanation: "3 × 2 = 6. This is basic multiplication."
+      }
+    ];
+  };
+
+  const questions = getQuestionsForQuiz();
 
   useEffect(() => {
     setAnswers(new Array(questions.length).fill(null));
@@ -156,7 +177,7 @@ const QuizPage = () => {
             </div>
             <h1 className="text-5xl font-bold text-white mb-4">Quiz Complete!</h1>
             <p className="text-xl text-blue-200">
-              {decodedSubject} • Chapter {chapterId} • Grade {grade}
+              {decodedSubject} • {decodedChapter} • Grade {grade}
             </p>
           </div>
 
@@ -253,9 +274,9 @@ const QuizPage = () => {
         <Card className="bg-white/10 backdrop-blur-md border-white/20 mb-8">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardDescription className="text-blue-200">
-                {decodedSubject} • Chapter {chapterId} • Grade {grade}
-              </CardDescription>
+            <CardDescription className="text-blue-200">
+              {decodedSubject} • {decodedChapter} • Grade {grade}
+            </CardDescription>
             </div>
             <CardTitle className="text-white text-2xl leading-relaxed">
               {questions[currentQuestion].question}

@@ -4,75 +4,123 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, Play, CheckCircle, Clock, BookOpen, Target } from 'lucide-react';
+import { grade12Mathematics } from '@/data/grade12Mathematics';
 
 const ChaptersPage = () => {
   const navigate = useNavigate();
   const { grade, subject } = useParams();
   const decodedSubject = decodeURIComponent(subject || '');
 
-  // Mock chapter data - in a real app, this would come from your data source
-  const chapters = [
-    {
-      id: 1,
-      title: 'Introduction to Numbers',
-      description: 'Basic concepts of numbers, counting, and number systems',
-      duration: '2-3 hours',
-      difficulty: 'Beginner',
-      progress: 100,
-      isCompleted: true,
-      questionsCount: 25,
-    },
-    {
-      id: 2,
-      title: 'Addition and Subtraction',
-      description: 'Learn fundamental arithmetic operations',
-      duration: '3-4 hours',
-      difficulty: 'Beginner',
-      progress: 75,
-      isCompleted: false,
-      questionsCount: 30,
-    },
-    {
-      id: 3,
-      title: 'Multiplication and Division',
-      description: 'Master multiplication tables and division concepts',
-      duration: '4-5 hours',
-      difficulty: 'Intermediate',
-      progress: 45,
-      isCompleted: false,
-      questionsCount: 35,
-    },
-    {
-      id: 4,
-      title: 'Fractions and Decimals',
-      description: 'Understanding parts of a whole and decimal notation',
-      duration: '3-4 hours',
-      difficulty: 'Intermediate',
-      progress: 0,
-      isCompleted: false,
-      questionsCount: 28,
-    },
-    {
-      id: 5,
-      title: 'Geometry Basics',
-      description: 'Shapes, angles, and basic geometric concepts',
-      duration: '2-3 hours',
-      difficulty: 'Intermediate',
-      progress: 0,
-      isCompleted: false,
-      questionsCount: 22,
-    },
-    {
-      id: 6,
-      title: 'Measurement and Units',
-      description: 'Length, weight, volume, and unit conversions',
-      duration: '2-3 hours',
-      difficulty: 'Beginner',
-      progress: 0,
-      isCompleted: false,
-      questionsCount: 20,
-    },
-  ];
+  // Get chapters based on subject and grade
+  const getChaptersForSubject = () => {
+    if (decodedSubject === 'Mathematics' && grade === '12') {
+      return Object.keys(grade12Mathematics).map((chapterName, index) => {
+        const questions = grade12Mathematics[chapterName];
+        const easyQuestions = questions.filter(q => q.difficulty === 'Easy').length;
+        const mediumQuestions = questions.filter(q => q.difficulty === 'Medium').length;
+        const hardQuestions = questions.filter(q => q.difficulty === 'Hard').length;
+        
+        return {
+          id: index + 1,
+          title: chapterName,
+          description: getChapterDescription(chapterName),
+          duration: getDurationEstimate(questions.length),
+          difficulty: getDominantDifficulty(easyQuestions, mediumQuestions, hardQuestions),
+          progress: Math.floor(Math.random() * 101), // Random progress for demo
+          isCompleted: Math.random() > 0.7, // Random completion status
+          questionsCount: questions.length,
+        };
+      });
+    }
+    
+    // Default mock chapters for other subjects/grades
+    return [
+      {
+        id: 1,
+        title: 'Introduction to Numbers',
+        description: 'Basic concepts of numbers, counting, and number systems',
+        duration: '2-3 hours',
+        difficulty: 'Beginner',
+        progress: 100,
+        isCompleted: true,
+        questionsCount: 25,
+      },
+      {
+        id: 2,
+        title: 'Addition and Subtraction',
+        description: 'Learn fundamental arithmetic operations',
+        duration: '3-4 hours',
+        difficulty: 'Beginner',
+        progress: 75,
+        isCompleted: false,
+        questionsCount: 30,
+      },
+      {
+        id: 3,
+        title: 'Multiplication and Division',
+        description: 'Master multiplication tables and division concepts',
+        duration: '4-5 hours',
+        difficulty: 'Intermediate',
+        progress: 45,
+        isCompleted: false,
+        questionsCount: 35,
+      },
+      {
+        id: 4,
+        title: 'Fractions and Decimals',
+        description: 'Understanding parts of a whole and decimal notation',
+        duration: '3-4 hours',
+        difficulty: 'Intermediate',
+        progress: 0,
+        isCompleted: false,
+        questionsCount: 28,
+      },
+      {
+        id: 5,
+        title: 'Geometry Basics',
+        description: 'Shapes, angles, and basic geometric concepts',
+        duration: '2-3 hours',
+        difficulty: 'Intermediate',
+        progress: 0,
+        isCompleted: false,
+        questionsCount: 22,
+      },
+      {
+        id: 6,
+        title: 'Measurement and Units',
+        description: 'Length, weight, volume, and unit conversions',
+        duration: '2-3 hours',
+        difficulty: 'Beginner',
+        progress: 0,
+        isCompleted: false,
+        questionsCount: 20,
+      },
+    ];
+  };
+
+  const getChapterDescription = (chapterName: string) => {
+    const descriptions: { [key: string]: string } = {
+      "Unit 1: Sequence and Series": "Learn arithmetic and geometric sequences, series, and their applications in problem solving",
+      "Unit 2: Introduction to Calculus": "Explore limits, derivatives, and basic integration concepts",
+      "Unit 3: Statistics": "Master statistical measures, data analysis, and probability distributions",
+      "Unit 4: Probability": "Understand probability theory, events, and statistical inference",
+      "Unit 5: Mathematical Application in Business": "Apply mathematical concepts to business problems and financial calculations"
+    };
+    return descriptions[chapterName] || "Comprehensive study of mathematical concepts and problem-solving techniques";
+  };
+
+  const getDurationEstimate = (questionCount: number) => {
+    const hours = Math.ceil(questionCount / 8); // Roughly 8 questions per hour
+    return `${hours}-${hours + 1} hours`;
+  };
+
+  const getDominantDifficulty = (easy: number, medium: number, hard: number) => {
+    if (hard >= easy && hard >= medium) return 'Advanced';
+    if (medium >= easy) return 'Intermediate';
+    return 'Beginner';
+  };
+
+  const chapters = getChaptersForSubject();
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -91,7 +139,8 @@ const ChaptersPage = () => {
   };
 
   const handleStartQuiz = (chapterId: number, chapterTitle: string) => {
-    navigate(`/grade/${grade}/subject/${encodeURIComponent(decodedSubject)}/chapter/${chapterId}/quiz`);
+    const chapterSlug = encodeURIComponent(chapterTitle);
+    navigate(`/grade/${grade}/subject/${encodeURIComponent(decodedSubject)}/chapter/${chapterSlug}/quiz`);
   };
 
   const overallProgress = Math.round(chapters.reduce((acc, chapter) => acc + chapter.progress, 0) / chapters.length);
