@@ -1,9 +1,7 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, FileText } from "lucide-react";
 import LoginForm from "@/components/LoginForm";
 import RegisterForm from "@/components/RegisterForm";
 import QuizDashboard from "@/components/QuizDashboard";
@@ -103,52 +101,38 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Navigation Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <Link to="/subjects">
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300 cursor-pointer group">
-              <CardHeader>
-                <CardTitle className="text-white text-2xl flex items-center">
-                  <BookOpen className="mr-3 h-8 w-8" />
-                  Browse Subjects
-                </CardTitle>
-                <CardDescription className="text-blue-200">
-                  Explore all available subjects and their chapters
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-blue-300 group-hover:text-white transition-colors">
-                  View all subjects →
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-
+        <div className="grid md:grid-cols-2 gap-8">
           <Card className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300">
             <CardHeader>
-              <CardTitle className="text-white text-2xl flex items-center">
-                <FileText className="mr-3 h-8 w-8" />
-                Take Quizzes
-              </CardTitle>
+              <CardTitle className="text-white text-2xl">New Student?</CardTitle>
               <CardDescription className="text-blue-200">
-                Test your knowledge with interactive quizzes
+                Join thousands of Ethiopian students preparing for their future
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                <Button 
-                  onClick={() => setCurrentView('login')}
-                  className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold"
-                >
-                  Sign In to Quiz
-                </Button>
-                <Button 
-                  onClick={() => setCurrentView('register')}
-                  className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold"
-                >
-                  Create Account
-                </Button>
-              </div>
+              <Button 
+                onClick={() => setCurrentView('register')}
+                className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold py-3"
+              >
+                Create Account
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 hover:bg-white/20 transition-all duration-300">
+            <CardHeader>
+              <CardTitle className="text-white text-2xl">Welcome Back!</CardTitle>
+              <CardDescription className="text-blue-200">
+                Continue your learning journey
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                onClick={() => setCurrentView('login')}
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold py-3"
+              >
+                Sign In
+              </Button>
             </CardContent>
           </Card>
         </div>
