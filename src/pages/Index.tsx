@@ -1,83 +1,43 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import LoginForm from "@/components/LoginForm";
 import RegisterForm from "@/components/RegisterForm";
+import QuizDashboard from "@/components/QuizDashboard";
 import QuizInterface from "@/components/QuizInterface";
-import GradeSelection from "./GradeSelection";
-import SubjectSelection from "./SubjectSelection";
-import ChaptersPage from "./ChaptersPage";
-import QuizPage from "./QuizPage";
 
 const Index = () => {
-  const navigate = useNavigate();
-  const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'grades' | 'subjects' | 'chapters' | 'quiz' | 'quiz-interface'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'dashboard' | 'quiz'>('home');
   const [user, setUser] = useState<{ name: string; grade: string; school?: string } | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<any>(null);
-  const [selectedGrade, setSelectedGrade] = useState<string | null>(null);
-  const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
-  const [selectedChapters, setSelectedChapters] = useState<string[]>([]);
 
   const handleLogin = (userData: { name: string; grade: string; school?: string }) => {
     setUser(userData);
-    setCurrentView('grades');
+    setCurrentView('dashboard');
   };
 
   const handleLogout = () => {
     setUser(null);
     setSelectedQuiz(null);
-    setSelectedGrade(null);
-    setSelectedSubject(null);
-    setSelectedChapters([]);
     setCurrentView('home');
-  };
-
-  const handleGradeSelect = (grade: string) => {
-    setSelectedGrade(grade);
-    setCurrentView('subjects');
-  };
-
-  const handleSubjectSelect = (subject: string) => {
-    setSelectedSubject(subject);
-    setCurrentView('chapters');
-  };
-
-  const handleChapterSelect = (chapters: string[]) => {
-    setSelectedChapters(chapters);
-    setCurrentView('quiz');
   };
 
   const handleSelectQuiz = (quiz: any) => {
     console.log('Quiz selected:', quiz);
     setSelectedQuiz(quiz);
-    setCurrentView('quiz-interface');
+    setCurrentView('quiz');
   };
 
   const handleQuizComplete = (result: any) => {
     console.log('Quiz completed with result:', result);
     setSelectedQuiz(null);
-    setCurrentView('grades');
+    setCurrentView('dashboard');
   };
 
-  const handleBackToGrades = () => {
+  const handleBackToDashboard = () => {
     setSelectedQuiz(null);
-    setSelectedGrade(null);
-    setSelectedSubject(null);
-    setSelectedChapters([]);
-    setCurrentView('grades');
-  };
-
-  const handleBackToSubjects = () => {
-    setSelectedSubject(null);
-    setSelectedChapters([]);
-    setCurrentView('subjects');
-  };
-
-  const handleBackToChapters = () => {
-    setSelectedChapters([]);
-    setCurrentView('chapters');
+    setCurrentView('dashboard');
   };
 
   if (currentView === 'login') {
@@ -104,61 +64,28 @@ const Index = () => {
     );
   }
 
-  if (currentView === 'quiz-interface' && selectedQuiz && user) {
+  if (currentView === 'quiz' && selectedQuiz && user) {
     return (
       <QuizInterface 
         quiz={selectedQuiz}
         user={user}
         onComplete={handleQuizComplete}
-        onBack={handleBackToGrades}
+        onBack={handleBackToDashboard}
       />
     );
   }
 
-  if (currentView === 'grades' && user) {
+  if (currentView === 'dashboard' && user) {
     return (
-      <GradeSelection 
+      <QuizDashboard 
         user={user} 
         onLogout={handleLogout}
-        onGradeSelect={handleGradeSelect}
+        onSelectQuiz={handleSelectQuiz}
       />
     );
   }
 
-  if (currentView === 'subjects' && user && selectedGrade) {
-    return (
-      <SubjectSelection 
-        grade={selectedGrade}
-        onBack={handleBackToGrades}
-        onSubjectSelect={handleSubjectSelect}
-      />
-    );
-  }
-
-  if (currentView === 'chapters' && user && selectedGrade && selectedSubject) {
-    return (
-      <ChaptersPage 
-        grade={selectedGrade}
-        subject={selectedSubject}
-        onBack={handleBackToSubjects}
-        onChapterSelect={handleChapterSelect}
-      />
-    );
-  }
-
-  if (currentView === 'quiz' && user && selectedGrade && selectedSubject && selectedChapters.length > 0) {
-    return (
-      <QuizPage 
-        user={user}
-        grade={selectedGrade}
-        subject={selectedSubject}
-        chapter={selectedChapters[0]} // Pass the first selected chapter for now
-        onBack={handleBackToChapters}
-        onStartQuiz={handleSelectQuiz}
-      />
-    );
-  }
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
@@ -170,7 +97,7 @@ const Index = () => {
             Advanced Learning Platform for Ethiopian Students
           </p>
           <div className="text-lg text-purple-200">
-            Grades 9-12 • Interactive Quizzes • Progress Tracking
+            Grades 1-12 • Interactive Quizzes • Progress Tracking
           </div>
         </div>
 
@@ -221,7 +148,7 @@ const Index = () => {
               <div className="text-sm">Subjects</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-purple-400">4</div>
+              <div className="text-2xl font-bold text-purple-400">12</div>
               <div className="text-sm">Grade Levels</div>
             </div>
             <div>
