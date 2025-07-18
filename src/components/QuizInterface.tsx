@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,7 +14,7 @@ import {
   Star
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { getQuestionsForQuiz } from '@/data/naturalScienceQuizzes';
+import { getQuestionsFromDatabase, type DatabaseQuestion } from '@/utils/supabaseQuestions';
 import QuestionExplanation from './QuestionExplanation';
 
 interface QuizInterfaceProps {
@@ -25,37 +26,43 @@ interface QuizInterfaceProps {
 
 const QuizInterface = ({ quiz, user, onComplete, onBack }: QuizInterfaceProps) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [timeLeft, setTimeLeft] = useState(quiz.duration * 60);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [results, setResults] = useState<any>(null);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [questions, setQuestions] = useState<DatabaseQuestion[]>([]);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const questions = useMemo(() => {
-    const generateQuestions = () => {
-      if (quiz.chapters && quiz.chapters.length > 0) {
-        const allQuestions: any[] = [];
-        
-        quiz.chapters.forEach((chapter: string) => {
-          const chapterQuestions = getQuestionsForQuiz(quiz.subject, chapter, quiz.difficulty, 2);
-          allQuestions.push(...chapterQuestions);
-        });
-        
-        const shuffled = allQuestions.sort(() => Math.random() - 0.5);
-        return shuffled.slice(0, Math.min(quiz.questions || 10, shuffled.length));
-      }
-      return [];
-    };
-    return generateQuestions();
-  }, [quiz.subject, quiz.chapters, quiz.difficulty, quiz.questions]);
-
   const currentQuestion = questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+  const progress = questions.length > 0 ? ((currentQuestionIndex + 1) / questions.length) * 100 : 0;
 
   console.log('Quiz started:', quiz);
-  console.log('Generated questions:', questions);
-  console.log('Current question:', currentQuestion);
+
+  // Fetch questions from database
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      setLoading(true);
+      console.log('Fetching questions for quiz:', quiz);
+      
+      if (quiz.chapters && quiz.chapters.length > 0) {
+        const fetchedQuestions = await getQuestionsFromDatabase(
+          quiz.subject, 
+          quiz.chapters, 
+          quiz.difficulty, 
+          quiz.questions || 10
+        );
+        
+        console.log('Fetched questions:', fetchedQuestions);
+        setQuestions(fetchedQuestions);
+      }
+      
+      setLoading(false);
+    };
+
+    fetchQuestions();
+  }, [quiz.subject, quiz.chapters, quiz.difficulty, quiz.questions]);
 
   useEffect(() => {
     if (timeLeft > 0 && !quizCompleted) {
@@ -113,7 +120,7 @@ const QuizInterface = ({ quiz, user, onComplete, onBack }: QuizInterfaceProps) =
     console.log('Selected answers:', selectedAnswers);
     console.log('Questions:', questions);
     
-    const correctAnswers = questions.filter(q => selectedAnswers[q.id] === q.correct).length;
+    const correctAnswers = questions.filter(q => selectedAnswers[q.id] === q.correct_answer).length;
     const score = Math.round((correctAnswers / questions.length) * 100);
     
     const quizResults = {
@@ -155,6 +162,20 @@ const QuizInterface = ({ quiz, user, onComplete, onBack }: QuizInterfaceProps) =
   const handleBackToSubjects = () => {
     onBack();
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-white p-6">
+        <div className="max-w-4xl mx-auto">
+          <Card className="bg-slate-800 border-slate-700 text-white">
+            <CardContent className="p-6 text-center">
+              <p className="text-xl mb-4 text-white">Loading questions...</p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   if (!questions || questions.length === 0) {
     return (
@@ -238,7 +259,7 @@ const QuizInterface = ({ quiz, user, onComplete, onBack }: QuizInterfaceProps) =
                 <h3 className="text-xl font-bold text-white">Review Your Answers</h3>
                 {questions.map((question, index) => {
                   const userAnswer = selectedAnswers[question.id];
-                  const isCorrect = userAnswer === question.correct;
+                  const isCorrect = userAnswer === question.correct_answer;
                   
                   return (
                     <div key={question.id} className="bg-slate-700 rounded-lg p-4">
@@ -253,7 +274,7 @@ const QuizInterface = ({ quiz, user, onComplete, onBack }: QuizInterfaceProps) =
                           <div className="text-sm space-y-1">
                             <p className="text-white">Your answer: <span className={isCorrect ? 'text-green-400' : 'text-red-400'}>{userAnswer || 'Not answered'}</span></p>
                             {!isCorrect && (
-                              <p className="text-white">Correct answer: <span className="text-green-400">{question.correct}</span></p>
+                              <p className="text-white">Correct answer: <span className="text-green-400">{question.correct_answer}</span></p>
                             )}
                             <p className="text-gray-300 italic">{question.explanation}</p>
                           </div>
@@ -287,7 +308,7 @@ const QuizInterface = ({ quiz, user, onComplete, onBack }: QuizInterfaceProps) =
     );
   }
 
-  const isCorrectAnswer = selectedAnswers[currentQuestion?.id] === currentQuestion?.correct;
+  const isCorrectAnswer = selectedAnswers[currentQuestion?.id] === currentQuestion?.correct_answer;
 
   return (
     <div className="min-h-screen bg-slate-900 text-white p-6">
@@ -361,7 +382,7 @@ const QuizInterface = ({ quiz, user, onComplete, onBack }: QuizInterfaceProps) =
             {showExplanation && (
               <QuestionExplanation
                 isCorrect={isCorrectAnswer}
-                correctAnswer={currentQuestion.correct}
+                correctAnswer={currentQuestion.correct_answer}
                 explanation={currentQuestion.explanation || "No explanation available for this question."}
                 userAnswer={selectedAnswers[currentQuestion.id] || ""}
               />
