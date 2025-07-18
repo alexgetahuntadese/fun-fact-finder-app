@@ -21,6 +21,7 @@ const QuizPage = () => {
   const decodedSubject = decodeURIComponent(subject || '');
   const decodedChapter = decodeURIComponent(chapterId || '');
 
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -29,67 +30,67 @@ const QuizPage = () => {
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
   const [quizCompleted, setQuizCompleted] = useState(false);
 
-  // Get questions based on subject, grade, and chapter
-  const getQuestionsForQuiz = () => {
-    if (decodedSubject === 'Mathematics' && grade === '12' && grade12Mathematics[decodedChapter]) {
-      // Get all questions from the chapter and shuffle them
-      const chapterQuestions = grade12Mathematics[decodedChapter];
-      const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
-      // Take first 10 questions for the quiz
-      return shuffled.slice(0, 10).map((q, index) => ({
-        id: index + 1,
-        question: q.question,
-        options: q.options,
-        correctAnswer: q.options.indexOf(q.correct),
-        explanation: q.explanation
-      }));
-    }
-    
-    // Default mock questions for other subjects/grades
-    return [
-      {
-        id: 1,
-        question: "What is 2 + 3?",
-        options: ["4", "5", "6", "7"],
-        correctAnswer: 1,
-        explanation: "2 + 3 = 5. This is basic addition."
-      },
-      {
-        id: 2,
-        question: "Which number comes after 9?",
-        options: ["8", "10", "11", "12"],
-        correctAnswer: 1,
-        explanation: "The number sequence continues: 8, 9, 10, 11..."
-      },
-      {
-        id: 3,
-        question: "What is 10 - 4?",
-        options: ["5", "6", "7", "8"],
-        correctAnswer: 1,
-        explanation: "10 - 4 = 6. This is basic subtraction."
-      },
-      {
-        id: 4,
-        question: "How many sides does a triangle have?",
-        options: ["2", "3", "4", "5"],
-        correctAnswer: 1,
-        explanation: "A triangle has exactly 3 sides by definition."
-      },
-      {
-        id: 5,
-        question: "What is 3 × 2?",
-        options: ["5", "6", "7", "8"],
-        correctAnswer: 1,
-        explanation: "3 × 2 = 6. This is basic multiplication."
-      }
-    ];
-  };
-
-  const questions = getQuestionsForQuiz();
-
+  // Initialize questions only once when component mounts
   useEffect(() => {
-    setAnswers(new Array(questions.length).fill(null));
-  }, [questions.length]);
+    const initializeQuestions = () => {
+      if (decodedSubject === 'Mathematics' && grade === '12' && grade12Mathematics[decodedChapter]) {
+        // Get all questions from the chapter and shuffle them
+        const chapterQuestions = grade12Mathematics[decodedChapter];
+        const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
+        // Take first 10 questions for the quiz
+        return shuffled.slice(0, 10).map((q, index) => ({
+          id: index + 1,
+          question: q.question,
+          options: q.options,
+          correctAnswer: q.options.indexOf(q.correct),
+          explanation: q.explanation
+        }));
+      }
+      
+      // Default mock questions for other subjects/grades
+      return [
+        {
+          id: 1,
+          question: "What is 2 + 3?",
+          options: ["4", "5", "6", "7"],
+          correctAnswer: 1,
+          explanation: "2 + 3 = 5. This is basic addition."
+        },
+        {
+          id: 2,
+          question: "Which number comes after 9?",
+          options: ["8", "10", "11", "12"],
+          correctAnswer: 1,
+          explanation: "The number sequence continues: 8, 9, 10, 11..."
+        },
+        {
+          id: 3,
+          question: "What is 10 - 4?",
+          options: ["5", "6", "7", "8"],
+          correctAnswer: 1,
+          explanation: "10 - 4 = 6. This is basic subtraction."
+        },
+        {
+          id: 4,
+          question: "How many sides does a triangle have?",
+          options: ["2", "3", "4", "5"],
+          correctAnswer: 1,
+          explanation: "A triangle has exactly 3 sides by definition."
+        },
+        {
+          id: 5,
+          question: "What is 3 × 2?",
+          options: ["5", "6", "7", "8"],
+          correctAnswer: 1,
+          explanation: "3 × 2 = 6. This is basic multiplication."
+        }
+      ];
+    };
+
+    const quizQuestions = initializeQuestions();
+    setQuestions(quizQuestions);
+    setAnswers(new Array(quizQuestions.length).fill(null));
+  }, [decodedSubject, grade, decodedChapter]);
 
   useEffect(() => {
     if (timeLeft > 0 && !quizCompleted) {
@@ -160,9 +161,28 @@ const QuizPage = () => {
     setSelectedAnswer(null);
     setShowResult(false);
     setScore(0);
-    setAnswers(new Array(questions.length).fill(null));
     setTimeLeft(1800);
     setQuizCompleted(false);
+    
+    // Generate new questions for retake
+    const initializeQuestions = () => {
+      if (decodedSubject === 'Mathematics' && grade === '12' && grade12Mathematics[decodedChapter]) {
+        const chapterQuestions = grade12Mathematics[decodedChapter];
+        const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, 10).map((q, index) => ({
+          id: index + 1,
+          question: q.question,
+          options: q.options,
+          correctAnswer: q.options.indexOf(q.correct),
+          explanation: q.explanation
+        }));
+      }
+      return questions; // Keep existing questions for non-math subjects
+    };
+    
+    const newQuestions = initializeQuestions();
+    setQuestions(newQuestions);
+    setAnswers(new Array(newQuestions.length).fill(null));
   };
 
   const getScoreColor = (score: number, total: number) => {
