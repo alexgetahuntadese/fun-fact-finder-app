@@ -6,7 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { GraduationCap, TrendingUp } from 'lucide-react';
 
 interface GradeCardProps {
-  grade: number;
+  grade: string;
   title: string;
   description: string;
   subjects: number;
