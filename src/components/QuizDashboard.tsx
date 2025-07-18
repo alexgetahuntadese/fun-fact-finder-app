@@ -645,14 +645,25 @@ const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => 
               </div>
             </div>
             
-            <Button 
-              variant="outline" 
-              onClick={onLogout}
-              className="border-white/20 text-white hover:bg-white/10"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
+            <div className="flex items-center space-x-3">
+              {user.grade === '12' && (
+                <Button 
+                  variant="outline" 
+                  onClick={() => window.location.href = '/?view=mobile-subjects'}
+                  className="border-white/20 text-white hover:bg-white/10 md:hidden"
+                >
+                  📱 Mobile View
+                </Button>
+              )}
+              <Button 
+                variant="outline" 
+                onClick={onLogout}
+                className="border-white/20 text-white hover:bg-white/10"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </Button>
+            </div>
           </div>
         </header>
 

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,15 +5,22 @@ import LoginForm from "@/components/LoginForm";
 import RegisterForm from "@/components/RegisterForm";
 import QuizDashboard from "@/components/QuizDashboard";
 import QuizInterface from "@/components/QuizInterface";
+import MobileSubjectSelection from "@/components/MobileSubjectSelection";
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'dashboard' | 'quiz'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'login' | 'register' | 'dashboard' | 'quiz' | 'mobile-subjects'>('home');
   const [user, setUser] = useState<{ name: string; grade: string; school?: string } | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<any>(null);
 
   const handleLogin = (userData: { name: string; grade: string; school?: string }) => {
     setUser(userData);
-    setCurrentView('dashboard');
+    // Check if it's a mobile device and redirect to mobile subjects view
+    const isMobile = window.innerWidth < 768;
+    if (isMobile && userData.grade === '12') {
+      setCurrentView('mobile-subjects');
+    } else {
+      setCurrentView('dashboard');
+    }
   };
 
   const handleLogout = () => {
@@ -85,7 +91,16 @@ const Index = () => {
     );
   }
 
-  
+  if (currentView === 'mobile-subjects' && user) {
+    return (
+      <MobileSubjectSelection 
+        user={user}
+        onSelectSubject={handleSelectQuiz}
+        onBack={() => setCurrentView('dashboard')}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
