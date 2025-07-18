@@ -8,13 +8,13 @@ import GradeCard from '@/components/mobile/GradeCard';
 interface GradeSelectionProps {
   user: { name: string; grade: string; school?: string };
   onLogout: () => void;
-  onGradeSelect: (grade: number) => void;
+  onGradeSelect: (grade: string) => void;
 }
 
 const GradeSelection: React.FC<GradeSelectionProps> = ({ user, onLogout, onGradeSelect }) => {
   const gradeCards = [
     {
-      grade: 9,
+      grade: "9",
       title: 'Grade 9',
       description: 'Foundation courses for secondary education',
       subjects: 11,
@@ -22,7 +22,7 @@ const GradeSelection: React.FC<GradeSelectionProps> = ({ user, onLogout, onGrade
       color: 'from-blue-500 to-purple-500'
     },
     {
-      grade: 10,
+      grade: "10",
       title: 'Grade 10',
       description: 'Advanced secondary education preparation',
       subjects: 11,
@@ -30,7 +30,7 @@ const GradeSelection: React.FC<GradeSelectionProps> = ({ user, onLogout, onGrade
       color: 'from-green-500 to-blue-500'
     },
     {
-      grade: 11,
+      grade: "11",
       title: 'Grade 11',
       description: 'Pre-university level studies',
       subjects: 14,
@@ -38,7 +38,7 @@ const GradeSelection: React.FC<GradeSelectionProps> = ({ user, onLogout, onGrade
       color: 'from-purple-500 to-pink-500'
     },
     {
-      grade: 12,
+      grade: "12",
       title: 'Grade 12',
       description: 'University entrance preparation',
       subjects: 14,
