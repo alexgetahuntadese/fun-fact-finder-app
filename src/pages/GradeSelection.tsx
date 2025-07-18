@@ -7,10 +7,6 @@ const GradeSelection = () => {
   const navigate = useNavigate();
 
   const grades = [
-    { number: 1, students: '12,500+', subjects: 8 },
-    { number: 2, students: '11,800+', subjects: 8 },
-    { number: 3, students: '11,200+', subjects: 9 },
-    { number: 4, students: '10,900+', subjects: 9 },
     { number: 5, students: '10,600+', subjects: 10 },
     { number: 6, students: '10,300+', subjects: 10 },
     { number: 7, students: '9,800+', subjects: 11 },
@@ -37,7 +33,7 @@ const GradeSelection = () => {
           </p>
           <div className="flex items-center justify-center text-purple-200">
             <GraduationCap className="mr-2 h-5 w-5" />
-            <span>Ethiopian Curriculum • Grades 1-12</span>
+            <span>Ethiopian Curriculum • Grades 5-12</span>
           </div>
         </div>
 
