@@ -4,7 +4,7 @@ import { ArrowLeft, BookOpen, Clock, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { getChapters, Chapter } from '@/utils/supabaseData';
+import { getChaptersBySubject, Chapter } from '@/utils/supabaseData';
 
 interface ChaptersPageProps {
   grade: string;
@@ -30,7 +30,7 @@ const ChaptersPage: React.FC<ChaptersPageProps> = ({
         setLoading(true);
         setError(null);
         console.log('Fetching chapters for subject:', subject);
-        const fetchedChapters = await getChapters(subject);
+        const fetchedChapters = await getChaptersBySubject(subject);
         console.log('Successfully fetched chapters:', fetchedChapters.length);
         setChapters(fetchedChapters);
       } catch (err) {
