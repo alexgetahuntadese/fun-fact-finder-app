@@ -24,7 +24,7 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
       try {
         setLoading(true);
         setError(null);
-        const fetchedSubjects = await getSubjects(grade);
+        const fetchedSubjects = await getSubjects();
         setSubjects(fetchedSubjects);
       } catch (err) {
         console.error('Error fetching subjects:', err);
@@ -35,7 +35,7 @@ const SubjectSelection: React.FC<SubjectSelectionProps> = ({
     };
 
     fetchSubjects();
-  }, [grade]);
+  }, []);
 
   if (loading) {
     return (

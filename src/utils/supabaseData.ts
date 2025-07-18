@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 
 export interface Subject {
@@ -15,21 +14,14 @@ export interface Chapter {
   order_index: number;
 }
 
-export const getSubjects = async (grade?: string): Promise<Subject[]> => {
+export const getSubjects = async (): Promise<Subject[]> => {
   try {
-    console.log('Fetching subjects from database...', grade ? `for grade ${grade}` : 'all grades');
+    console.log('Fetching all subjects from database...');
     
-    let query = supabase
+    const { data: subjects, error } = await supabase
       .from('subjects')
       .select('id, name, description')
       .order('name');
-    
-    // Filter by grade if provided
-    if (grade) {
-      query = query.ilike('name', `%Grade ${grade}%`);
-    }
-    
-    const { data: subjects, error } = await query;
     
     if (error) {
       console.error('Error fetching subjects:', error);
