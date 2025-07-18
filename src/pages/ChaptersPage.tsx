@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, ArrowLeft, FileText } from 'lucide-react';
+import { BookOpen, ArrowLeft, FileText, Play } from 'lucide-react';
 import { getSubjects, getChaptersBySubject, Subject, Chapter } from '@/utils/supabaseData';
 
 const ChaptersPage = () => {
@@ -116,13 +116,15 @@ const ChaptersPage = () => {
                     </div>
                   </div>
 
-                  <Button 
-                    variant="ghost" 
-                    className="w-full text-green-300 hover:text-white hover:bg-green-600/20"
-                    disabled
-                  >
-                    Coming Soon - Quiz
-                  </Button>
+                  <Link to={`/quiz/${subjectId}/${chapter.id}`}>
+                    <Button 
+                      variant="ghost" 
+                      className="w-full text-green-300 hover:text-white hover:bg-green-600/20"
+                    >
+                      <Play className="h-4 w-4 mr-2" />
+                      Take Quiz
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             ))}
