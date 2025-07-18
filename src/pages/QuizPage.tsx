@@ -89,16 +89,24 @@ const QuizPage = () => {
 
   useEffect(() => {
     setAnswers(new Array(questions.length).fill(null));
-  }, []);
+  }, [questions.length]);
 
   useEffect(() => {
     if (timeLeft > 0 && !quizCompleted) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    } else if (timeLeft === 0) {
-      handleQuizComplete();
+      const timer = setInterval(() => {
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            setQuizCompleted(true);
+            setShowResult(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      
+      return () => clearInterval(timer);
     }
-  }, [timeLeft, quizCompleted]);
+  }, [quizCompleted]);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
