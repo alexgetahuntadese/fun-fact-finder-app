@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { 
   BookOpen, 
   Trophy, 
@@ -17,7 +17,6 @@ import {
   Target,
   GraduationCap,
   ChevronRight,
-  ChevronDown,
   Calculator,
   Microscope,
   Globe,
@@ -49,16 +48,8 @@ interface QuizDashboardProps {
 
 const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => {
   const [selectedSubject, setSelectedSubject] = useState('all');
-  const [expandedGrades, setExpandedGrades] = useState<number[]>([]);
   const isMobile = useIsMobile();
-
-  const toggleGrade = (gradeNumber: number) => {
-    setExpandedGrades(prev => 
-      prev.includes(gradeNumber) 
-        ? prev.filter(g => g !== gradeNumber)
-        : [...prev, gradeNumber]
-    );
-  };
+  const navigate = useNavigate();
 
   const gradeCards = [
     {
@@ -98,6 +89,10 @@ const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => 
       color: 'from-orange-500 to-red-500'
     }
   ];
+
+  const handleGradeCardClick = () => {
+    navigate('/subjects');
+  };
 
   const mathTopics = {
     9: ['Algebra Basics', 'Linear Equations', 'Geometry Fundamentals', 'Number Systems'],
@@ -447,180 +442,6 @@ const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => 
     }
   };
 
-  const renderGrade11Content = () => (
-    <Card className="bg-white/5 border-white/20 text-white">
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-4">
-            <div className="p-3 rounded-lg bg-purple-500">
-              <BookOpen className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <h4 className="text-lg font-bold">Grade 11 Subjects</h4>
-              <p className="text-sm text-gray-400">Pre-university level studies with interactive cards</p>
-            </div>
-          </div>
-          <Badge variant="secondary" className="bg-purple-100 text-purple-800">
-            14 subjects
-          </Badge>
-        </div>
-        
-        {/* Natural Science Stream */}
-        <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <h5 className="text-lg font-semibold text-white">📘 Natural Science Stream</h5>
-            <Badge variant="secondary" className="ml-3 bg-blue-100 text-blue-800">
-              {grade11Subjects.naturalScience.length} subjects
-            </Badge>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {grade11Subjects.naturalScience.map((subject, index) => (
-              <SubjectCard
-                key={index}
-                subject={subject}
-                progress={getSubjectProgress(subject.name)}
-                grade={11}
-                onSelectQuiz={onSelectQuiz}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Social Science Stream */}
-        <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <h5 className="text-lg font-semibold text-white">📗 Social Science Stream</h5>
-            <Badge variant="secondary" className="ml-3 bg-green-100 text-green-800">
-              {grade11Subjects.socialScience.length} subjects
-            </Badge>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {grade11Subjects.socialScience.map((subject, index) => (
-              <SubjectCard
-                key={index}
-                subject={subject}
-                progress={getSubjectProgress(subject.name)}
-                grade={11}
-                onSelectQuiz={onSelectQuiz}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Common Courses */}
-        <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <h5 className="text-lg font-semibold text-white">📙 Common Courses</h5>
-            <Badge variant="secondary" className="ml-3 bg-yellow-100 text-yellow-800">
-              {grade11Subjects.common.length} subjects
-            </Badge>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {grade11Subjects.common.map((subject, index) => (
-              <SubjectCard
-                key={index}
-                subject={subject}
-                progress={getSubjectProgress(subject.name)}
-                grade={11}
-                onSelectQuiz={onSelectQuiz}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const renderGrade12Content = () => (
-    <Card className="bg-white/5 border-white/20 text-white">
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-4">
-            <div className="p-3 rounded-lg bg-orange-500">
-              <BookOpen className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <h4 className="text-lg font-bold">Grade 12 Subjects</h4>
-              <p className="text-sm text-gray-400">University entrance preparation with interactive cards</p>
-            </div>
-          </div>
-          <Badge variant="secondary" className="bg-orange-100 text-orange-800">
-            14 subjects
-          </Badge>
-        </div>
-        
-        {/* Natural Science Stream */}
-        <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <h5 className="text-lg font-semibold text-white">📘 Natural Science Stream</h5>
-            <Badge variant="secondary" className="ml-3 bg-blue-100 text-blue-800">
-              {grade12Subjects.naturalScience.length} subjects
-            </Badge>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {grade12Subjects.naturalScience.map((subject, index) => (
-              <SubjectCard
-                key={index}
-                subject={subject}
-                progress={getSubjectProgress(subject.name)}
-                grade={12}
-                onSelectQuiz={onSelectQuiz}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Social Science Stream */}
-        <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <h5 className="text-lg font-semibold text-white">📗 Social Science Stream</h5>
-            <Badge variant="secondary" className="ml-3 bg-green-100 text-green-800">
-              {grade12Subjects.socialScience.length} subjects
-            </Badge>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {grade12Subjects.socialScience.map((subject, index) => (
-              <SubjectCard
-                key={index}
-                subject={subject}
-                progress={getSubjectProgress(subject.name)}
-                grade={12}
-                onSelectQuiz={onSelectQuiz}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Common Courses */}
-        <div className="mb-8">
-          <div className="flex items-center mb-4">
-            <h5 className="text-lg font-semibold text-white">📙 Common Courses</h5>
-            <Badge variant="secondary" className="ml-3 bg-yellow-100 text-yellow-800">
-              {grade12Subjects.common.length} subjects
-            </Badge>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {grade12Subjects.common.map((subject, index) => (
-              <SubjectCard
-                key={index}
-                subject={subject}
-                progress={getSubjectProgress(subject.name)}
-                grade={12}
-                onSelectQuiz={onSelectQuiz}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
       {/* Background elements */}
@@ -677,57 +498,43 @@ const QuizDashboard = ({ user, onLogout, onSelectQuiz }: QuizDashboardProps) => 
           {/* Grade Cards Section */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-6">Grade Levels</h2>
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {gradeCards.map((grade) => (
-                <Collapsible 
+                <Card 
                   key={grade.grade} 
-                  open={expandedGrades.includes(grade.grade)}
-                  onOpenChange={() => toggleGrade(grade.grade)}
+                  className="bg-white/5 border-white/20 text-white hover:bg-white/10 transition-all duration-300 group cursor-pointer"
+                  onClick={handleGradeCardClick}
                 >
-                  <CollapsibleTrigger asChild>
-                    <Card className="bg-white/5 border-white/20 text-white hover:bg-white/10 transition-all duration-300 group cursor-pointer">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className={`p-3 rounded-lg bg-gradient-to-r ${grade.color}`}>
-                            <GraduationCap className="h-6 w-6 text-white" />
-                          </div>
-                          {expandedGrades.includes(grade.grade) ? 
-                            <ChevronDown className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" /> :
-                            <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" />
-                          }
-                        </div>
-                        
-                        <h3 className="text-xl font-bold mb-2">{grade.title}</h3>
-                        <p className="text-sm text-gray-400 mb-4">{grade.description}</p>
-                        
-                        <div className="space-y-3">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-400">Subjects:</span>
-                            <span className="font-medium">{grade.subjects}</span>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span className="text-gray-400">Quizzes:</span>
-                            <span className="font-medium">{grade.quizzes}</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-400">Progress:</span>
-                              <span className="font-medium">{grade.progress}%</span>
-                            </div>
-                            <Progress value={grade.progress} className="h-2" />
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </CollapsibleTrigger>
-                  
-                  <CollapsibleContent className="space-y-4">
-                    <div className="ml-8 mt-4">
-                      {grade.grade === 11 ? renderGrade11Content() : null}
-                      {grade.grade === 12 ? renderGrade12Content() : null}
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`p-3 rounded-lg bg-gradient-to-r ${grade.color}`}>
+                        <GraduationCap className="h-6 w-6 text-white" />
+                      </div>
+                      <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" />
                     </div>
-                  </CollapsibleContent>
-                </Collapsible>
+                    
+                    <h3 className="text-xl font-bold mb-2">{grade.title}</h3>
+                    <p className="text-sm text-gray-400 mb-4">{grade.description}</p>
+                    
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-400">Subjects:</span>
+                        <span className="font-medium">{grade.subjects}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-400">Quizzes:</span>
+                        <span className="font-medium">{grade.quizzes}</span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-400">Progress:</span>
+                          <span className="font-medium">{grade.progress}%</span>
+                        </div>
+                        <Progress value={grade.progress} className="h-2" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
