@@ -4,8 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Clock, CheckCircle, XCircle, Trophy, RotateCcw } from 'lucide-react';
+import { ArrowLeft, Clock, CheckCircle, XCircle, Trophy, RotateCcw, Eye } from 'lucide-react';
 import { grade12Mathematics, getMathQuestionsForQuiz } from '@/data/grade12Mathematics';
+import QuestionExplanation from '@/components/QuestionExplanation';
 
 interface Question {
   id: number;
@@ -33,16 +34,16 @@ const QuizPage = () => {
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
   const [quizCompleted, setQuizCompleted] = useState(false);
 
+  console.log('Current route params:', { grade, subject: decodedSubject, chapter: decodedChapter, difficulty: selectedDifficulty });
+
   // Initialize questions only once when component mounts
   useEffect(() => {
     const initializeQuestions = () => {
       if (decodedSubject === 'Mathematics' && grade === '12' && grade12Mathematics[decodedChapter]) {
-        // Get questions from the chapter filtered by difficulty
         const chapterQuestions = grade12Mathematics[decodedChapter];
         const filteredQuestions = chapterQuestions.filter(q => q.difficulty === selectedDifficulty);
         
         if (filteredQuestions.length === 0) {
-          // Fallback to all questions if no questions found for selected difficulty
           const shuffled = [...chapterQuestions].sort(() => Math.random() - 0.5);
           return shuffled.slice(0, 10).map((q, index) => ({
             id: index + 1,
@@ -53,7 +54,6 @@ const QuizPage = () => {
           }));
         }
         
-        // Shuffle and take up to 10 questions from the selected difficulty
         const shuffled = [...filteredQuestions].sort(() => Math.random() - 0.5);
         const questionsToTake = Math.min(10, shuffled.length);
         return shuffled.slice(0, questionsToTake).map((q, index) => ({
@@ -66,13 +66,15 @@ const QuizPage = () => {
       }
       
       if (decodedSubject === 'Biology' && grade === '12') {
-        // Import Biology questions dynamically
+        console.log('Loading Biology questions for:', { chapter: decodedChapter, difficulty: selectedDifficulty });
+        
         import('@/data/grade12BiologyQuestions').then(({ getGrade12BiologyQuestions }) => {
           const difficultyLevel = selectedDifficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
           const biologyQuestions = getGrade12BiologyQuestions(decodedChapter, difficultyLevel, 10);
           
+          console.log('Loaded Biology questions:', biologyQuestions.length);
+          
           if (biologyQuestions.length === 0) {
-            // Fallback to getting questions from all difficulties
             const easyQuestions = getGrade12BiologyQuestions(decodedChapter, 'easy', 3);
             const mediumQuestions = getGrade12BiologyQuestions(decodedChapter, 'medium', 3);
             const hardQuestions = getGrade12BiologyQuestions(decodedChapter, 'hard', 4);
@@ -83,7 +85,7 @@ const QuizPage = () => {
               question: q.question,
               options: q.options,
               correctAnswer: q.options.indexOf(q.correct),
-              explanation: q.explanation
+              explanation: q.explanation || `This question tests your understanding of ${decodedChapter}. The correct answer demonstrates key concepts in this unit.`
             }));
             
             setQuestions(formattedQuestions);
@@ -94,9 +96,10 @@ const QuizPage = () => {
               question: q.question,
               options: q.options,
               correctAnswer: q.options.indexOf(q.correct),
-              explanation: q.explanation
+              explanation: q.explanation || `This question tests your understanding of ${decodedChapter}. The correct answer demonstrates key concepts in this unit.`
             }));
             
+            console.log('Formatted questions with explanations:', formattedQuestions);
             setQuestions(formattedQuestions);
             setAnswers(new Array(formattedQuestions.length).fill(null));
           }
@@ -104,50 +107,48 @@ const QuizPage = () => {
           setIsLoading(false);
         });
         
-        return []; // Return empty array while loading Biology questions
+        return [];
       }
       
-      // Default mock questions for other subjects/grades
       return [
         {
           id: 1,
           question: "What is 2 + 3?",
           options: ["4", "5", "6", "7"],
           correctAnswer: 1,
-          explanation: "2 + 3 = 5. This is basic addition."
+          explanation: "2 + 3 = 5. This is basic addition where we combine two numbers to get their sum."
         },
         {
           id: 2,
           question: "Which number comes after 9?",
           options: ["8", "10", "11", "12"],
           correctAnswer: 1,
-          explanation: "The number sequence continues: 8, 9, 10, 11..."
+          explanation: "The number sequence continues: 8, 9, 10, 11... So 10 comes after 9."
         },
         {
           id: 3,
           question: "What is 10 - 4?",
           options: ["5", "6", "7", "8"],
           correctAnswer: 1,
-          explanation: "10 - 4 = 6. This is basic subtraction."
+          explanation: "10 - 4 = 6. This is basic subtraction where we remove 4 from 10."
         },
         {
           id: 4,
           question: "How many sides does a triangle have?",
           options: ["2", "3", "4", "5"],
           correctAnswer: 1,
-          explanation: "A triangle has exactly 3 sides by definition."
+          explanation: "A triangle has exactly 3 sides by definition. This is a fundamental geometric property."
         },
         {
           id: 5,
           question: "What is 3 × 2?",
           options: ["5", "6", "7", "8"],
           correctAnswer: 1,
-          explanation: "3 × 2 = 6. This is basic multiplication."
+          explanation: "3 × 2 = 6. This is basic multiplication where we add 3 two times: 3 + 3 = 6."
         }
       ];
     };
 
-    // For Biology, the questions are loaded asynchronously
     if (decodedSubject === 'Biology' && grade === '12') {
       initializeQuestions();
     } else {
@@ -157,6 +158,12 @@ const QuizPage = () => {
       setIsLoading(false);
     }
   }, [decodedSubject, grade, decodedChapter, selectedDifficulty]);
+
+  // Reset explanation when changing questions
+  useEffect(() => {
+    setShowExplanation(false);
+    console.log('Question changed to:', currentQuestion, 'Explanation reset');
+  }, [currentQuestion]);
 
   useEffect(() => {
     if (timeLeft > 0 && !quizCompleted) {
@@ -184,32 +191,37 @@ const QuizPage = () => {
   const handleAnswerSelect = (answerIndex: number) => {
     if (!showExplanation) {
       setSelectedAnswer(answerIndex);
+      const newAnswers = [...answers];
+      newAnswers[currentQuestion] = answerIndex;
+      setAnswers(newAnswers);
+      console.log('Answer selected:', answerIndex, 'for question:', currentQuestion);
+    }
+  };
+
+  const handleShowAnswer = () => {
+    if (selectedAnswer !== null) {
+      setShowExplanation(true);
+      console.log('Showing explanation for question:', currentQuestion);
     }
   };
 
   const handleNext = () => {
-    if (selectedAnswer !== null && !showExplanation) {
-      // Show explanation first
-      const newAnswers = [...answers];
-      newAnswers[currentQuestion] = selectedAnswer;
-      setAnswers(newAnswers);
-      setShowExplanation(true);
-    } else if (showExplanation) {
-      // Move to next question or complete quiz
-      if (currentQuestion < questions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-        setSelectedAnswer(answers[currentQuestion + 1]);
-        setShowExplanation(false);
-      } else {
-        handleQuizComplete();
-      }
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedAnswer(answers[currentQuestion + 1]);
+      setShowExplanation(false);
+      console.log('Moving to next question:', currentQuestion + 1);
+    } else {
+      handleQuizComplete();
     }
   };
 
   const handlePrevious = () => {
-    if (currentQuestion > 0 && !showExplanation) {
+    if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
       setSelectedAnswer(answers[currentQuestion - 1]);
+      setShowExplanation(false);
+      console.log('Moving to previous question:', currentQuestion - 1);
     }
   };
 
@@ -226,6 +238,7 @@ const QuizPage = () => {
     setScore(correctAnswers);
     setQuizCompleted(true);
     setShowResult(true);
+    console.log('Quiz completed. Score:', correctAnswers, '/', questions.length);
   };
 
   const handleRetake = () => {
@@ -238,7 +251,6 @@ const QuizPage = () => {
     setTimeLeft(1800);
     setQuizCompleted(false);
     
-    // Generate new questions for retake
     const initializeQuestions = () => {
       if (decodedSubject === 'Mathematics' && grade === '12' && grade12Mathematics[decodedChapter]) {
         const chapterQuestions = grade12Mathematics[decodedChapter];
@@ -287,7 +299,7 @@ const QuizPage = () => {
         return [];
       }
       
-      return questions; // Keep existing questions for non-math/biology subjects
+      return questions;
     };
     
     if (decodedSubject === 'Biology' && grade === '12') {
@@ -335,8 +347,9 @@ const QuizPage = () => {
   };
 
   const progress = questions.length > 0 ? ((currentQuestion + 1) / questions.length) * 100 : 0;
+  const currentQuestionData = questions[currentQuestion];
+  const isCorrectAnswer = selectedAnswer === currentQuestionData?.correctAnswer;
 
-  // Show loading state while questions are being prepared
   if (isLoading || questions.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
@@ -392,23 +405,7 @@ const QuizPage = () => {
                 </div>
               </div>
             </CardContent>
-        </Card>
-
-        {showExplanation && (
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 mb-8">
-            <CardHeader>
-              <CardTitle className="text-white text-xl flex items-center">
-                <CheckCircle className="mr-2 h-5 w-5 text-green-500" />
-                Explanation
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-blue-200 leading-relaxed">
-                {questions[currentQuestion]?.explanation}
-              </p>
-            </CardContent>
           </Card>
-        )}
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -475,17 +472,17 @@ const QuizPage = () => {
         <Card className="bg-white/10 backdrop-blur-md border-white/20 mb-8">
           <CardHeader>
             <div className="flex items-center justify-between">
-            <CardDescription className="text-blue-200">
-              {decodedSubject} • {decodedChapter} • {selectedDifficulty} Level • Grade {grade}
-            </CardDescription>
+              <CardDescription className="text-blue-200">
+                {decodedSubject} • {decodedChapter} • {selectedDifficulty} Level • Grade {grade}
+              </CardDescription>
             </div>
             <CardTitle className="text-white text-2xl leading-relaxed">
-              {questions[currentQuestion]?.question || "Loading question..."}
+              {currentQuestionData?.question || "Loading question..."}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {questions[currentQuestion]?.options?.map((option, index) => {
+              {currentQuestionData?.options?.map((option, index) => {
                 const status = getAnswerStatus(index);
                 return (
                   <button
@@ -502,29 +499,47 @@ const QuizPage = () => {
                 );
               }) || <p className="text-white">Loading options...</p>}
             </div>
+
+            {showExplanation && currentQuestionData && (
+              <QuestionExplanation
+                isCorrect={isCorrectAnswer}
+                correctAnswer={currentQuestionData.options[currentQuestionData.correctAnswer]}
+                explanation={currentQuestionData.explanation}
+                userAnswer={selectedAnswer !== null ? currentQuestionData.options[selectedAnswer] : ""}
+              />
+            )}
           </CardContent>
         </Card>
 
         <div className="flex justify-between">
           <Button 
             onClick={handlePrevious}
-            disabled={currentQuestion === 0 || showExplanation}
+            disabled={currentQuestion === 0}
             variant="outline"
             className="bg-white/10 border-white/20 text-white hover:bg-white/20 disabled:opacity-50"
           >
             Previous
           </Button>
           
-          <Button 
-            onClick={handleNext}
-            disabled={selectedAnswer === null}
-            className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white disabled:opacity-50"
-          >
-            {showExplanation 
-              ? (currentQuestion === questions.length - 1 ? 'Finish Quiz' : 'Next Question')
-              : 'Show Answer'
-            }
-          </Button>
+          <div className="flex gap-2">
+            {!showExplanation && selectedAnswer !== null && (
+              <Button 
+                onClick={handleShowAnswer}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+              >
+                <Eye className="mr-2 h-4 w-4" />
+                Show Answer
+              </Button>
+            )}
+            
+            <Button 
+              onClick={handleNext}
+              disabled={selectedAnswer === null}
+              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white disabled:opacity-50"
+            >
+              {currentQuestion === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
