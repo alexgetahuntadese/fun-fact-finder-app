@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Clock, CheckCircle, XCircle, Trophy, RotateCcw, Eye } from 'lucide-react';
 import { grade12Mathematics, getMathQuestionsForQuiz } from '@/data/grade12Mathematics';
+import { getGrade12ChemistryQuestions } from '@/data/grade12ChemistryQuestions';
 import QuestionExplanation from '@/components/QuestionExplanation';
 
 interface Question {
@@ -109,6 +110,48 @@ const QuizPage = () => {
         
         return [];
       }
+
+      if (decodedSubject === 'Chemistry' && grade === '12') {
+        console.log('Loading Chemistry questions for:', { chapter: decodedChapter, difficulty: selectedDifficulty });
+        
+        const difficultyLevel = selectedDifficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
+        const chemistryQuestions = getGrade12ChemistryQuestions(decodedChapter, difficultyLevel, 10);
+        
+        console.log('Loaded Chemistry questions:', chemistryQuestions.length);
+        
+        if (chemistryQuestions.length === 0) {
+          const easyQuestions = getGrade12ChemistryQuestions(decodedChapter, 'easy', 3);
+          const mediumQuestions = getGrade12ChemistryQuestions(decodedChapter, 'medium', 3);
+          const hardQuestions = getGrade12ChemistryQuestions(decodedChapter, 'hard', 4);
+          const allQuestions = [...easyQuestions, ...mediumQuestions, ...hardQuestions];
+          
+          const formattedQuestions = allQuestions.map((q, index) => ({
+            id: index + 1,
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.options.indexOf(q.correct),
+            explanation: q.explanation || `This question tests your understanding of ${decodedChapter}. The correct answer demonstrates key concepts in this unit.`
+          }));
+          
+          setQuestions(formattedQuestions);
+          setAnswers(new Array(formattedQuestions.length).fill(null));
+        } else {
+          const formattedQuestions = chemistryQuestions.map((q, index) => ({
+            id: index + 1,
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.options.indexOf(q.correct),
+            explanation: q.explanation || `This question tests your understanding of ${decodedChapter}. The correct answer demonstrates key concepts in this unit.`
+          }));
+          
+          console.log('Formatted Chemistry questions with explanations:', formattedQuestions);
+          setQuestions(formattedQuestions);
+          setAnswers(new Array(formattedQuestions.length).fill(null));
+        }
+        
+        setIsLoading(false);
+        return [];
+      }
       
       return [
         {
@@ -150,6 +193,8 @@ const QuizPage = () => {
     };
 
     if (decodedSubject === 'Biology' && grade === '12') {
+      initializeQuestions();
+    } else if (decodedSubject === 'Chemistry' && grade === '12') {
       initializeQuestions();
     } else {
       const quizQuestions = initializeQuestions();
@@ -298,11 +343,31 @@ const QuizPage = () => {
         
         return [];
       }
+
+      if (decodedSubject === 'Chemistry' && grade === '12') {
+        const difficultyLevel = selectedDifficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
+        const chemistryQuestions = getGrade12ChemistryQuestions(decodedChapter, difficultyLevel, 10);
+        
+        const formattedQuestions = chemistryQuestions.map((q, index) => ({
+          id: index + 1,
+          question: q.question,
+          options: q.options,
+          correctAnswer: q.options.indexOf(q.correct),
+          explanation: q.explanation || `This question tests your understanding of ${decodedChapter}.`
+        }));
+        
+        setQuestions(formattedQuestions);
+        setAnswers(new Array(formattedQuestions.length).fill(null));
+        setIsLoading(false);
+        return [];
+      }
       
       return questions;
     };
     
     if (decodedSubject === 'Biology' && grade === '12') {
+      initializeQuestions();
+    } else if (decodedSubject === 'Chemistry' && grade === '12') {
       initializeQuestions();
     } else {
       const newQuestions = initializeQuestions();

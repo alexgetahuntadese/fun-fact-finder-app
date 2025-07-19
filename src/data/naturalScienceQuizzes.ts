@@ -272,7 +272,7 @@ export const getQuestionsForQuiz = (subject: string, chapter: string, difficulty
   console.log('Getting questions for:', { subject, chapter, difficulty, count });
   
   // Handle Grade 12 Biology questions
-  if (subject === 'biology' && chapter.includes('Unit')) {
+  if (subject.toLowerCase() === 'biology' && chapter.includes('Unit')) {
     console.log('Processing Grade 12 Biology for chapter:', chapter);
     
     const difficultyLevel = difficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
@@ -290,7 +290,7 @@ export const getQuestionsForQuiz = (subject: string, chapter: string, difficulty
   }
 
   // Handle Grade 12 Chemistry questions
-  if (subject === 'chemistry' && chapter.includes('Unit')) {
+  if (subject.toLowerCase() === 'chemistry' && chapter.includes('Unit')) {
     console.log('Processing Grade 12 Chemistry for chapter:', chapter);
     
     const difficultyLevel = difficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
@@ -310,26 +310,26 @@ export const getQuestionsForQuiz = (subject: string, chapter: string, difficulty
   let questions: Question[] = [];
 
   // Handle Grade 11 questions
-  if (subject === 'biology' && !chapter.includes('Unit')) {
+  if (subject.toLowerCase() === 'biology' && !chapter.includes('Unit')) {
     if (grade11BiologyQuestions[chapter]) {
       questions = grade11BiologyQuestions[chapter];
     }
-  } else if (subject === 'physics') {
+  } else if (subject.toLowerCase() === 'physics') {
     if (grade11PhysicsQuestions[chapter]) {
       questions = grade11PhysicsQuestions[chapter];
     }
-  } else if (subject === 'chemistry') {
+  } else if (subject.toLowerCase() === 'chemistry' && !chapter.includes('Unit')) {
     if (grade11ChemistryQuestions[chapter]) {
       questions = grade11ChemistryQuestions[chapter];
     }
-  } else if (subject === 'technical drawing') {
+  } else if (subject.toLowerCase() === 'technical drawing') {
     if (grade11TechnicalDrawingQuestions[chapter]) {
       questions = grade11TechnicalDrawingQuestions[chapter];
     }
   }
   
   // Add some fallback questions for testing
-  if (subject === 'physics') {
+  if (subject.toLowerCase() === 'physics') {
     switch (chapter) {
       case 'Chapter 1: Mechanics':
         if (difficulty === 'Easy') {
@@ -352,7 +352,7 @@ export const getQuestionsForQuiz = (subject: string, chapter: string, difficulty
         }
         break;
     }
-  } else if (subject === 'chemistry') {
+  } else if (subject.toLowerCase() === 'chemistry') {
     switch (chapter) {
       case 'Chapter 1: Atomic Structure and Periodic Properties':
         if (difficulty === 'Easy') {
