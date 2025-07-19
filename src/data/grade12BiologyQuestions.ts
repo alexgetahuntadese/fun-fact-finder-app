@@ -1,4 +1,5 @@
 
+
 export interface BiologyQuestion {
   id: string;
   question: string;
@@ -10,7 +11,7 @@ export interface BiologyQuestion {
 
 export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } = {
   "Unit 1: Application of Biology": [
-    // Easy Questions
+    // Easy Questions (10 total)
     {
       id: "bio12_app_e1",
       question: "What is biotechnology?",
@@ -51,7 +52,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Fermentation is an anaerobic metabolic process where microorganisms convert organic compounds, especially sugars, into simpler compounds like alcohol or acids.",
       difficulty: "Easy"
     },
-    // Medium Questions
+    {
+      id: "bio12_app_e6",
+      question: "What is a clone?",
+      options: ["Genetically identical copy of an organism", "A type of bacteria", "A plant disease", "A laboratory instrument"],
+      correct: "Genetically identical copy of an organism",
+      explanation: "A clone is an organism that is genetically identical to its parent, produced through asexual reproduction or biotechnology techniques.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_app_e7",
+      question: "Which technique is used to separate DNA fragments by size?",
+      options: ["Gel electrophoresis", "Microscopy", "Fermentation", "Distillation"],
+      correct: "Gel electrophoresis",
+      explanation: "Gel electrophoresis is a technique that separates DNA fragments based on their size by running them through a gel matrix using an electric current.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_app_e8",
+      question: "What is the main purpose of vaccines?",
+      options: ["Prevent diseases by stimulating immunity", "Cure existing diseases", "Provide nutrition", "Increase energy"],
+      correct: "Prevent diseases by stimulating immunity",
+      explanation: "Vaccines contain weakened or killed pathogens that stimulate the immune system to produce antibodies, providing protection against specific diseases.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_app_e9",
+      question: "Which molecule carries genetic information?",
+      options: ["DNA", "Protein", "Lipid", "Carbohydrate"],
+      correct: "DNA",
+      explanation: "DNA (Deoxyribonucleic Acid) is the molecule that stores and transmits genetic information in most living organisms.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_app_e10",
+      question: "What is genetic modification?",
+      options: ["Changing an organism's genes", "Changing an organism's habitat", "Changing an organism's diet", "Changing an organism's behavior"],
+      correct: "Changing an organism's genes",
+      explanation: "Genetic modification involves altering the genetic material of an organism to introduce new traits or characteristics.",
+      difficulty: "Easy"
+    },
+    // Medium Questions (10 total)
     {
       id: "bio12_app_m1",
       question: "What is the main advantage of using recombinant DNA technology in medicine?",
@@ -92,7 +133,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Bioremediation uses living organisms, especially microorganisms, to remove or neutralize environmental pollutants from contaminated sites.",
       difficulty: "Medium"
     },
-    // Hard Questions
+    {
+      id: "bio12_app_m6",
+      question: "What is the role of ligase in genetic engineering?",
+      options: ["Joins DNA fragments together", "Cuts DNA at specific sites", "Unwinds DNA double helix", "Synthesizes RNA from DNA"],
+      correct: "Joins DNA fragments together",
+      explanation: "DNA ligase is an enzyme that joins DNA fragments together by forming phosphodiester bonds, essential for creating recombinant DNA.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_app_m7",
+      question: "What is gene therapy?",
+      options: ["Treatment of disease by introducing normal genes", "Physical therapy for genes", "Counseling for genetic disorders", "Surgery on genes"],
+      correct: "Treatment of disease by introducing normal genes",
+      explanation: "Gene therapy is a technique that introduces normal genes into patients' cells to treat or prevent disease caused by defective genes.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_app_m8",
+      question: "Which organism is used to produce human growth hormone?",
+      options: ["Genetically modified bacteria", "Yeast", "Virus", "Algae"],
+      correct: "Genetically modified bacteria",
+      explanation: "Genetically modified bacteria, typically E. coli, are used to produce human growth hormone through recombinant DNA technology.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_app_m9",
+      question: "What is the function of primers in PCR?",
+      options: ["Provide starting points for DNA synthesis", "Cut DNA at specific sites", "Join DNA fragments", "Denature DNA"],
+      correct: "Provide starting points for DNA synthesis",
+      explanation: "Primers are short DNA sequences that provide the starting points for DNA synthesis during PCR amplification.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_app_m10",
+      question: "What is transgenic organism?",
+      options: ["Organism containing genes from another species", "Organism that has changed sex", "Organism living in different environment", "Organism with extra chromosomes"],
+      correct: "Organism containing genes from another species",
+      explanation: "A transgenic organism is one that has been genetically modified to contain genes from another species, giving it new characteristics.",
+      difficulty: "Medium"
+    },
+    // Hard Questions (10 total)
     {
       id: "bio12_app_h1",
       question: "What is the significance of Ti plasmids in plant genetic engineering?",
@@ -132,11 +213,51 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       correct: "Study of how genes affect drug response",
       explanation: "Pharmacogenomics is the study of how an individual's genetic makeup affects their response to drugs, enabling personalized medicine approaches.",
       difficulty: "Hard"
+    },
+    {
+      id: "bio12_app_h6",
+      question: "What is the difference between somatic and germline gene therapy?",
+      options: ["Somatic affects only the individual, germline affects offspring", "Somatic is temporary, germline is permanent", "Somatic uses viruses, germline uses bacteria", "Somatic is cheaper, germline is expensive"],
+      correct: "Somatic affects only the individual, germline affects offspring",
+      explanation: "Somatic gene therapy targets non-reproductive cells and affects only the treated individual, while germline gene therapy modifies reproductive cells and can be passed to offspring.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_app_h7",
+      question: "What is RNA interference (RNAi)?",
+      options: ["Gene silencing mechanism using small RNA molecules", "RNA synthesis disruption", "RNA editing process", "RNA degradation pathway"],
+      correct: "Gene silencing mechanism using small RNA molecules",
+      explanation: "RNAi is a biological process where small RNA molecules inhibit gene expression by neutralizing targeted mRNA molecules, effectively silencing genes.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_app_h8",
+      question: "What is the purpose of selectable markers in genetic engineering?",
+      options: ["Identify cells that have taken up foreign DNA", "Cut DNA at specific sites", "Amplify DNA sequences", "Sequence DNA"],
+      correct: "Identify cells that have taken up foreign DNA",
+      explanation: "Selectable markers are genes that allow researchers to identify and select cells that have successfully incorporated foreign DNA during genetic engineering.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_app_h9",
+      question: "What is synthetic biology?",
+      options: ["Engineering biological systems with new functions", "Study of artificial organisms", "Manufacturing of biological products", "Computer simulation of biology"],
+      correct: "Engineering biological systems with new functions",
+      explanation: "Synthetic biology is an interdisciplinary field that combines engineering principles with biology to design and construct new biological parts, devices, and systems.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_app_h10",
+      question: "What are the ethical concerns with genetic engineering?",
+      options: ["Safety, equity, and playing God", "Cost and time", "Technical complexity", "Patent issues"],
+      correct: "Safety, equity, and playing God",
+      explanation: "Major ethical concerns include potential safety risks, equitable access to benefits, and philosophical questions about altering the natural order of life.",
+      difficulty: "Hard"
     }
   ],
   
   "Unit 2: Microorganisms": [
-    // Easy Questions
+    // Easy Questions (10 total)
     {
       id: "bio12_micro_e1",
       question: "What are microorganisms?",
@@ -177,7 +298,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Antibiotics are medications that primarily target bacterial infections by either killing bacteria or inhibiting their growth.",
       difficulty: "Easy"
     },
-    // Medium Questions
+    {
+      id: "bio12_micro_e6",
+      question: "Which microorganism causes the common cold?",
+      options: ["Virus", "Bacteria", "Fungus", "Protozoa"],
+      correct: "Virus",
+      explanation: "The common cold is caused by viruses, most commonly rhinoviruses, which infect the upper respiratory tract.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_micro_e7",
+      question: "What is the basic structure of a virus?",
+      options: ["Genetic material surrounded by protein coat", "Cell wall and nucleus", "Cytoplasm and organelles", "Membrane and ribosomes"],
+      correct: "Genetic material surrounded by protein coat",
+      explanation: "Viruses consist of genetic material (DNA or RNA) surrounded by a protein coat called a capsid, and sometimes an outer envelope.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_micro_e8",
+      question: "Which microorganism is used to make bread rise?",
+      options: ["Yeast", "Bacteria", "Virus", "Algae"],
+      correct: "Yeast",
+      explanation: "Yeast ferments sugars in bread dough, producing carbon dioxide gas that makes the bread rise and creates its fluffy texture.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_micro_e9",
+      question: "What is pasteurization?",
+      options: ["Heating to kill harmful microorganisms", "Freezing food", "Adding preservatives", "Drying food"],
+      correct: "Heating to kill harmful microorganisms",
+      explanation: "Pasteurization is a process that uses heat to kill harmful microorganisms in food and beverages while preserving nutritional value.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_micro_e10",
+      question: "Which type of microorganism causes athlete's foot?",
+      options: ["Fungus", "Bacteria", "Virus", "Protozoa"],
+      correct: "Fungus",
+      explanation: "Athlete's foot is a fungal infection typically caused by dermatophytes that thrive in warm, moist environments.",
+      difficulty: "Easy"
+    },
+    // Medium Questions (10 total)
     {
       id: "bio12_micro_m1",
       question: "What is the difference between gram-positive and gram-negative bacteria?",
@@ -218,7 +379,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Quorum sensing is a communication mechanism that allows bacteria to detect and respond to cell population density through signaling molecules.",
       difficulty: "Medium"
     },
-    // Hard Questions
+    {
+      id: "bio12_micro_m6",
+      question: "What is the lytic cycle in viral reproduction?",
+      options: ["Virus replicates and destroys host cell", "Virus integrates into host chromosome", "Virus becomes dormant", "Virus transforms the host"],
+      correct: "Virus replicates and destroys host cell",
+      explanation: "In the lytic cycle, viruses rapidly replicate inside the host cell and then cause the cell to burst (lyse), releasing new viral particles.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_micro_m7",
+      question: "Which microorganism is responsible for malaria?",
+      options: ["Plasmodium (protozoa)", "Bacteria", "Virus", "Fungus"],
+      correct: "Plasmodium (protozoa)",
+      explanation: "Malaria is caused by Plasmodium parasites, which are protozoan organisms transmitted through mosquito bites.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_micro_m8",
+      question: "What is binary fission?",
+      options: ["Bacterial reproduction method", "Viral replication", "Fungal spore formation", "Protozoan movement"],
+      correct: "Bacterial reproduction method",
+      explanation: "Binary fission is the primary method of reproduction in bacteria, where a single cell divides into two identical daughter cells.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_micro_m9",
+      question: "Which structure helps bacteria move?",
+      options: ["Flagella", "Cell wall", "Ribosomes", "Nucleoid"],
+      correct: "Flagella",
+      explanation: "Flagella are whip-like structures that extend from bacterial cells and rotate to propel the bacterium through liquid environments.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_micro_m10",
+      question: "What is the difference between bacteria and archaea?",
+      options: ["Different cell wall composition and genetics", "Different size only", "Different habitat only", "Different reproduction method"],
+      correct: "Different cell wall composition and genetics",
+      explanation: "Bacteria and archaea differ in cell wall composition, genetic machinery, and biochemical pathways, despite both being prokaryotic.",
+      difficulty: "Medium"
+    },
+    // Hard Questions (10 total)
     {
       id: "bio12_micro_h1",
       question: "What is horizontal gene transfer in bacteria?",
@@ -258,11 +459,51 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       correct: "They thrive in conditions lethal to other organisms",
       explanation: "Archaebacteria (archaea) are extremophiles that can survive and thrive in extreme conditions like high temperature, high salinity, or extreme pH that would kill most other organisms.",
       difficulty: "Hard"
+    },
+    {
+      id: "bio12_micro_h6",
+      question: "What is the mechanism of action of penicillin?",
+      options: ["Inhibits cell wall synthesis", "Destroys DNA", "Blocks protein synthesis", "Disrupts cell membrane"],
+      correct: "Inhibits cell wall synthesis",
+      explanation: "Penicillin works by inhibiting the synthesis of peptidoglycan, a key component of bacterial cell walls, causing cell death.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_micro_h7",
+      question: "What is antigenic variation in pathogens?",
+      options: ["Changing surface proteins to evade immunity", "Changing size to hide from immune cells", "Changing reproduction rate", "Changing habitat preference"],
+      correct: "Changing surface proteins to evade immunity",
+      explanation: "Antigenic variation is a strategy used by pathogens to change their surface proteins, helping them evade the host's immune response.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_micro_h8",
+      question: "What is the difference between obligate and facultative anaerobes?",
+      options: ["Obligate cannot survive with oxygen, facultative can survive with or without", "Obligate are larger, facultative are smaller", "Obligate move faster, facultative move slower", "Obligate are pathogenic, facultative are beneficial"],
+      correct: "Obligate cannot survive with oxygen, facultative can survive with or without",
+      explanation: "Obligate anaerobes cannot survive in the presence of oxygen, while facultative anaerobes can survive and grow with or without oxygen.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_micro_h9",
+      question: "What is the role of reverse transcriptase in retroviruses?",
+      options: ["Converts RNA to DNA", "Converts DNA to RNA", "Converts proteins to RNA", "Converts RNA to proteins"],
+      correct: "Converts RNA to DNA",
+      explanation: "Reverse transcriptase is an enzyme used by retroviruses to convert their RNA genome into DNA, which can then be integrated into the host cell's chromosome.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_micro_h10",
+      question: "What is the significance of the microbiome?",
+      options: ["Community of microorganisms affecting host health", "Individual microorganism in isolation", "Laboratory culture of microorganisms", "Microscopic examination technique"],
+      correct: "Community of microorganisms affecting host health",
+      explanation: "The microbiome refers to the collective genomes of microorganisms that live in and on the human body, significantly influencing health and disease.",
+      difficulty: "Hard"
     }
   ],
 
   "Unit 3: Energy transformation": [
-    // Easy Questions
+    // Easy Questions (10 total)
     {
       id: "bio12_energy_e1",
       question: "What is photosynthesis?",
@@ -303,7 +544,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "ATP (Adenosine Triphosphate) is often called the energy currency of cells because it stores and provides energy for cellular processes.",
       difficulty: "Easy"
     },
-    // Medium Questions
+    {
+      id: "bio12_energy_e6",
+      question: "What is the main product of photosynthesis?",
+      options: ["Glucose", "Protein", "Lipid", "Nucleic acid"],
+      correct: "Glucose",
+      explanation: "The main product of photosynthesis is glucose, a simple sugar that serves as the primary energy source for plants and other organisms.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_energy_e7",
+      question: "Which gas do plants absorb during photosynthesis?",
+      options: ["Carbon dioxide", "Oxygen", "Nitrogen", "Hydrogen"],
+      correct: "Carbon dioxide",
+      explanation: "Plants absorb carbon dioxide from the atmosphere during photosynthesis and use it to produce glucose.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_energy_e8",
+      question: "Where does cellular respiration occur?",
+      options: ["Mitochondria", "Chloroplasts", "Nucleus", "Ribosomes"],
+      correct: "Mitochondria",
+      explanation: "Cellular respiration occurs primarily in mitochondria, where glucose is broken down to produce ATP energy.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_energy_e9",
+      question: "What is chlorophyll?",
+      options: ["Green pigment that captures light energy", "A type of sugar", "A cellular organelle", "A type of enzyme"],
+      correct: "Green pigment that captures light energy",
+      explanation: "Chlorophyll is the green pigment found in chloroplasts that captures light energy for photosynthesis.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_energy_e10",
+      question: "What do plants need for photosynthesis?",
+      options: ["Sunlight, water, and carbon dioxide", "Only sunlight", "Only water", "Only carbon dioxide"],
+      correct: "Sunlight, water, and carbon dioxide",
+      explanation: "Plants need sunlight (energy), water, and carbon dioxide as the three main ingredients for photosynthesis.",
+      difficulty: "Easy"
+    },
+    // Medium Questions (10 total)
     {
       id: "bio12_energy_m1",
       question: "What are the two main stages of photosynthesis?",
@@ -344,7 +625,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Photosynthesis and cellular respiration are complementary processes: photosynthesis stores energy by making glucose, while cellular respiration releases energy by breaking down glucose.",
       difficulty: "Medium"
     },
-    // Hard Questions
+    {
+      id: "bio12_energy_m6",
+      question: "What is the role of NADH in cellular respiration?",
+      options: ["Carries electrons to the electron transport chain", "Breaks down glucose", "Produces carbon dioxide", "Synthesizes proteins"],
+      correct: "Carries electrons to the electron transport chain",
+      explanation: "NADH is an electron carrier that transports high-energy electrons from glycolysis and the Krebs cycle to the electron transport chain.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_energy_m7",
+      question: "What is the Krebs cycle?",
+      options: ["Series of reactions that break down pyruvate", "Light-dependent reactions", "Carbon fixation process", "Fermentation pathway"],
+      correct: "Series of reactions that break down pyruvate",
+      explanation: "The Krebs cycle is a series of chemical reactions that completely break down pyruvate, producing CO₂, ATP, NADH, and FADH₂.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_energy_m8",
+      question: "What is fermentation?",
+      options: ["Anaerobic breakdown of glucose", "Aerobic breakdown of glucose", "Synthesis of glucose", "Transport of glucose"],
+      correct: "Anaerobic breakdown of glucose",
+      explanation: "Fermentation is the anaerobic breakdown of glucose that occurs when oxygen is not available, producing less ATP than cellular respiration.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_energy_m9",
+      question: "Where do the light reactions of photosynthesis occur?",
+      options: ["Thylakoid membranes", "Stroma", "Mitochondria", "Nucleus"],
+      correct: "Thylakoid membranes",
+      explanation: "The light reactions of photosynthesis occur in the thylakoid membranes, where chlorophyll captures light energy.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_energy_m10",
+      question: "What is the purpose of the light reactions?",
+      options: ["Convert light energy to chemical energy", "Fix carbon dioxide", "Produce glucose", "Break down glucose"],
+      correct: "Convert light energy to chemical energy",
+      explanation: "The light reactions convert light energy into chemical energy in the form of ATP and NADPH, which are used in the Calvin cycle.",
+      difficulty: "Medium"
+    },
+    // Hard Questions (10 total)
     {
       id: "bio12_energy_h1",
       question: "What is the net gain of ATP molecules from one glucose molecule during cellular respiration?",
@@ -384,11 +705,51 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       correct: "Proton gradient across membranes",
       explanation: "Both processes use chemiosmosis, where a proton gradient across membranes (thylakoids in photosynthesis, inner mitochondrial membrane in respiration) drives ATP synthesis.",
       difficulty: "Hard"
+    },
+    {
+      id: "bio12_energy_h6",
+      question: "What is the difference between cyclic and non-cyclic photophosphorylation?",
+      options: ["Cyclic produces only ATP, non-cyclic produces ATP and NADPH", "Cyclic uses oxygen, non-cyclic doesn't", "Cyclic is faster, non-cyclic is slower", "Cyclic occurs in darkness, non-cyclic in light"],
+      correct: "Cyclic produces only ATP, non-cyclic produces ATP and NADPH",
+      explanation: "Cyclic photophosphorylation produces only ATP, while non-cyclic photophosphorylation produces both ATP and NADPH, and also releases oxygen.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_energy_h7",
+      question: "What is the role of oxygen in cellular respiration?",
+      options: ["Final electron acceptor in electron transport chain", "Substrate for glycolysis", "Product of Krebs cycle", "Activator of enzymes"],
+      correct: "Final electron acceptor in electron transport chain",
+      explanation: "Oxygen serves as the final electron acceptor in the electron transport chain, allowing the chain to continue operating and ATP to be produced.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_energy_h8",
+      question: "What is substrate-level phosphorylation?",
+      options: ["Direct transfer of phosphate to ADP", "ATP synthesis using proton gradient", "Breaking of high-energy bonds", "Formation of phospholipids"],
+      correct: "Direct transfer of phosphate to ADP",
+      explanation: "Substrate-level phosphorylation is the direct transfer of a phosphate group from a high-energy substrate to ADP, forming ATP without using a proton gradient.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_energy_h9",
+      question: "What is the significance of the P680 and P700 reaction centers?",
+      options: ["They absorb light at different wavelengths in photosynthesis", "They are different types of chlorophyll", "They operate at different temperatures", "They are found in different plants"],
+      correct: "They absorb light at different wavelengths in photosynthesis",
+      explanation: "P680 and P700 are reaction centers in photosystem II and I respectively, named for their optimal light absorption wavelengths (680nm and 700nm).",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_energy_h10",
+      question: "What is CAM photosynthesis?",
+      options: ["Temporal separation of CO2 fixation and Calvin cycle", "Spatial separation of processes", "Continuous photosynthesis", "Photosynthesis without light"],
+      correct: "Temporal separation of CO2 fixation and Calvin cycle",
+      explanation: "CAM (Crassulacean Acid Metabolism) photosynthesis involves temporal separation where CO2 is fixed at night and the Calvin cycle occurs during the day.",
+      difficulty: "Hard"
     }
   ],
 
   "Unit 4: Evolution": [
-    // Easy Questions
+    // Easy Questions (10 total)
     {
       id: "bio12_evol_e1",
       question: "What is evolution?",
@@ -429,7 +790,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Adaptations are inherited characteristics that increase an organism's chances of survival and reproduction in its specific environment.",
       difficulty: "Easy"
     },
-    // Medium Questions
+    {
+      id: "bio12_evol_e6",
+      question: "What is a species?",
+      options: ["Group of organisms that can interbreed", "Group of similar-looking organisms", "Group of organisms in the same area", "Group of organisms of the same size"],
+      correct: "Group of organisms that can interbreed",
+      explanation: "A species is typically defined as a group of organisms that can interbreed and produce fertile offspring.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_evol_e7",
+      question: "What is variation?",
+      options: ["Differences between individuals in a population", "Changes in environment", "Changes in weather", "Changes in habitat"],
+      correct: "Differences between individuals in a population",
+      explanation: "Variation refers to the differences in characteristics between individuals within a population, which is essential for evolution.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_evol_e8",
+      question: "What is heredity?",
+      options: ["Passing of traits from parents to offspring", "Learning from experience", "Adapting to environment", "Changing over time"],
+      correct: "Passing of traits from parents to offspring",
+      explanation: "Heredity is the passing of traits from parents to their offspring through genes.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_evol_e9",
+      question: "What is a mutation?",
+      options: ["Change in DNA sequence", "Change in behavior", "Change in habitat", "Change in diet"],
+      correct: "Change in DNA sequence",
+      explanation: "A mutation is a change in the DNA sequence that can potentially lead to new traits in organisms.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_evol_e10",
+      question: "What is extinction?",
+      options: ["Complete disappearance of a species", "Migration to new areas", "Seasonal dormancy", "Adaptation to new environments"],
+      correct: "Complete disappearance of a species",
+      explanation: "Extinction occurs when all individuals of a species die out completely, often due to environmental changes or inability to adapt.",
+      difficulty: "Easy"
+    },
+    // Medium Questions (10 total)
     {
       id: "bio12_evol_m1",
       question: "What is genetic drift?",
@@ -470,7 +871,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "The founder effect occurs when a small group establishes a new population, leading to reduced genetic diversity and potential genetic drift.",
       difficulty: "Medium"
     },
-    // Hard Questions
+    {
+      id: "bio12_evol_m6",
+      question: "What are analogous structures?",
+      options: ["Structures with similar function but different origins", "Structures with similar origin but different functions", "Identical structures in related species", "Structures that don't function"],
+      correct: "Structures with similar function but different origins",
+      explanation: "Analogous structures have similar functions but evolved independently in different lineages, demonstrating convergent evolution.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_evol_m7",
+      question: "What is gene flow?",
+      options: ["Movement of alleles between populations", "Mutation within populations", "Natural selection pressure", "Genetic drift effects"],
+      correct: "Movement of alleles between populations",
+      explanation: "Gene flow is the transfer of alleles from one population to another through migration and breeding.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_evol_m8",
+      question: "What is reproductive isolation?",
+      options: ["Barriers preventing interbreeding between populations", "Physical separation of populations", "Temporal differences in reproduction", "Behavioral differences only"],
+      correct: "Barriers preventing interbreeding between populations",
+      explanation: "Reproductive isolation includes any barriers that prevent different populations from interbreeding, leading to speciation.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_evol_m9",
+      question: "What is the bottleneck effect?",
+      options: ["Reduction in genetic diversity due to population crash", "Increase in genetic diversity", "Stable population size", "Rapid population growth"],
+      correct: "Reduction in genetic diversity due to population crash",
+      explanation: "The bottleneck effect occurs when a population's size is significantly reduced, leading to reduced genetic diversity.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_evol_m10",
+      question: "What is artificial selection?",
+      options: ["Human-directed breeding for desired traits", "Natural selection in artificial environments", "Random breeding", "Genetic engineering"],
+      correct: "Human-directed breeding for desired traits",
+      explanation: "Artificial selection is the process where humans selectively breed organisms for desired traits, similar to natural selection but directed by human choice.",
+      difficulty: "Medium"
+    },
+    // Hard Questions (10 total)
     {
       id: "bio12_evol_h1",
       question: "What is the Hardy-Weinberg principle?",
@@ -510,11 +951,51 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       correct: "Drives evolution of traits that increase mating success",
       explanation: "Sexual selection drives the evolution of traits that increase an individual's chances of mating and reproductive success, even if they don't improve survival.",
       difficulty: "Hard"
+    },
+    {
+      id: "bio12_evol_h6",
+      question: "What is molecular clock?",
+      options: ["Using DNA changes to estimate evolutionary time", "Timing of developmental processes", "Circadian rhythms in organisms", "Rate of protein synthesis"],
+      correct: "Using DNA changes to estimate evolutionary time",
+      explanation: "A molecular clock uses the rate of DNA mutations to estimate when species diverged from common ancestors.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_evol_h7",
+      question: "What is adaptive radiation?",
+      options: ["Rapid evolution of many species from common ancestor", "Gradual adaptation to environment", "Extinction of related species", "Migration to new habitats"],
+      correct: "Rapid evolution of many species from common ancestor",
+      explanation: "Adaptive radiation is the rapid evolution of many species from a single ancestral species, often occurring when new environments become available.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_evol_h8",
+      question: "What is the difference between microevolution and macroevolution?",
+      options: ["Microevolution is small-scale, macroevolution is large-scale", "Microevolution is fast, macroevolution is slow", "Microevolution is visible, macroevolution is invisible", "Microevolution is recent, macroevolution is ancient"],
+      correct: "Microevolution is small-scale, macroevolution is large-scale",
+      explanation: "Microevolution refers to small-scale changes within species, while macroevolution refers to large-scale changes such as speciation and higher taxonomic changes.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_evol_h9",
+      question: "What is neutral evolution?",
+      options: ["Evolution of traits that don't affect fitness", "Evolution that favors neutral organisms", "Evolution without natural selection", "Evolution at a constant rate"],
+      correct: "Evolution of traits that don't affect fitness",
+      explanation: "Neutral evolution refers to the evolution of traits that neither help nor harm an organism's survival and reproduction, driven by genetic drift.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_evol_h10",
+      question: "What is the endosymbiotic theory?",
+      options: ["Eukaryotic cells evolved from prokaryotic partnerships", "Cells evolved from viruses", "Multicellular organisms evolved from single cells", "DNA evolved from RNA"],
+      correct: "Eukaryotic cells evolved from prokaryotic partnerships",
+      explanation: "The endosymbiotic theory proposes that eukaryotic cells evolved when larger prokaryotic cells engulfed smaller ones, which became organelles like mitochondria and chloroplasts.",
+      difficulty: "Hard"
     }
   ],
 
   "Unit 5: Human Body System": [
-    // Easy Questions
+    // Easy Questions (10 total)
     {
       id: "bio12_human_e1",
       question: "What is the main function of the circulatory system?",
@@ -555,7 +1036,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Neurons are the basic functional units of the nervous system, specialized for transmitting electrical and chemical signals.",
       difficulty: "Easy"
     },
-    // Medium Questions
+    {
+      id: "bio12_human_e6",
+      question: "What is the main function of the digestive system?",
+      options: ["Break down food and absorb nutrients", "Pump blood", "Exchange gases", "Filter waste"],
+      correct: "Break down food and absorb nutrients",
+      explanation: "The digestive system breaks down food into smaller molecules that can be absorbed and used by the body for energy and growth.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_human_e7",
+      question: "Which system protects the body from disease?",
+      options: ["Immune system", "Skeletal system", "Muscular system", "Reproductive system"],
+      correct: "Immune system",
+      explanation: "The immune system protects the body from pathogens and diseases by recognizing and destroying harmful substances.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_human_e8",
+      question: "What is the largest organ in the human body?",
+      options: ["Skin", "Liver", "Brain", "Heart"],
+      correct: "Skin",
+      explanation: "The skin is the largest organ in the human body, serving as a protective barrier and helping regulate body temperature.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_human_e9",
+      question: "What connects muscles to bones?",
+      options: ["Tendons", "Ligaments", "Cartilage", "Joints"],
+      correct: "Tendons",
+      explanation: "Tendons are strong, fibrous connective tissues that connect muscles to bones, allowing muscles to move bones.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_human_e10",
+      question: "What is the function of red blood cells?",
+      options: ["Carry oxygen", "Fight infection", "Clot blood", "Carry nutrients"],
+      correct: "Carry oxygen",
+      explanation: "Red blood cells contain hemoglobin, which binds to oxygen and transports it from the lungs to tissues throughout the body.",
+      difficulty: "Easy"
+    },
+    // Medium Questions (10 total)
     {
       id: "bio12_human_m1",
       question: "What are the four chambers of the human heart?",
@@ -596,7 +1117,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Insulin is a hormone produced by the pancreas that regulates blood glucose levels by facilitating glucose uptake by cells.",
       difficulty: "Medium"
     },
-    // Hard Questions
+    {
+      id: "bio12_human_m6",
+      question: "What is the function of white blood cells?",
+      options: ["Fight infections and diseases", "Carry oxygen", "Clot blood", "Transport nutrients"],
+      correct: "Fight infections and diseases",
+      explanation: "White blood cells are part of the immune system and defend the body against pathogens, infections, and foreign substances.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_human_m7",
+      question: "What is the role of the liver?",
+      options: ["Detoxify blood and produce bile", "Pump blood", "Exchange gases", "Filter urine"],
+      correct: "Detoxify blood and produce bile",
+      explanation: "The liver detoxifies harmful substances from the blood, produces bile for fat digestion, and performs many other metabolic functions.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_human_m8",
+      question: "What is the function of platelets?",
+      options: ["Blood clotting", "Carry oxygen", "Fight infections", "Transport nutrients"],
+      correct: "Blood clotting",
+      explanation: "Platelets are small cell fragments that help stop bleeding by clumping together and forming blood clots when blood vessels are damaged.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_human_m9",
+      question: "What is the difference between voluntary and involuntary muscles?",
+      options: ["Voluntary muscles can be consciously controlled", "Voluntary muscles are stronger", "Voluntary muscles are larger", "Voluntary muscles work faster"],
+      correct: "Voluntary muscles can be consciously controlled",
+      explanation: "Voluntary muscles (like skeletal muscles) can be consciously controlled, while involuntary muscles (like heart and smooth muscles) work automatically.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_human_m10",
+      question: "What is the function of the spinal cord?",
+      options: ["Transmit signals between brain and body", "Produce hormones", "Filter blood", "Digest food"],
+      correct: "Transmit signals between brain and body",
+      explanation: "The spinal cord serves as the main pathway for transmitting nerve signals between the brain and the rest of the body.",
+      difficulty: "Medium"
+    },
+    // Hard Questions (10 total)
     {
       id: "bio12_human_h1",
       question: "What is the difference between the sympathetic and parasympathetic nervous systems?",
@@ -636,11 +1197,51 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       correct: "Immune system attacks body's own cells",
       explanation: "Autoimmunity occurs when the immune system mistakenly attacks and destroys the body's own healthy cells and tissues.",
       difficulty: "Hard"
+    },
+    {
+      id: "bio12_human_h6",
+      question: "What is the cardiac cycle?",
+      options: ["Sequence of heart contraction and relaxation", "Blood circulation through body", "Electrical conduction in heart", "Heart rate regulation"],
+      correct: "Sequence of heart contraction and relaxation",
+      explanation: "The cardiac cycle is the sequence of events during one heartbeat, including systole (contraction) and diastole (relaxation) of the heart chambers.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_human_h7",
+      question: "What is the role of surfactant in the lungs?",
+      options: ["Reduces surface tension in alveoli", "Filters incoming air", "Produces mucus", "Exchanges gases"],
+      correct: "Reduces surface tension in alveoli",
+      explanation: "Surfactant is a substance that reduces surface tension in the alveoli, preventing them from collapsing and making breathing easier.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_human_h8",
+      question: "What is the difference between innate and adaptive immunity?",
+      options: ["Innate is immediate and general, adaptive is specific and acquired", "Innate is stronger, adaptive is weaker", "Innate is temporary, adaptive is permanent", "Innate is cellular, adaptive is humoral"],
+      correct: "Innate is immediate and general, adaptive is specific and acquired",
+      explanation: "Innate immunity provides immediate, general protection against pathogens, while adaptive immunity develops specific responses to particular pathogens and creates memory.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_human_h9",
+      question: "What is the mechanism of muscle contraction?",
+      options: ["Sliding filament theory with actin and myosin", "Expansion and contraction of muscle fibers", "Electrical stimulation only", "Chemical reaction in muscle cells"],
+      correct: "Sliding filament theory with actin and myosin",
+      explanation: "Muscle contraction occurs through the sliding filament mechanism, where actin and myosin filaments slide past each other, powered by ATP.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_human_h10",
+      question: "What is the blood-brain barrier?",
+      options: ["Selective barrier protecting brain from toxins", "Physical wall around the brain", "Collection of blood vessels", "Nerve barrier in spinal cord"],
+      correct: "Selective barrier protecting brain from toxins",
+      explanation: "The blood-brain barrier is a selective barrier formed by tight junctions between brain capillary cells that prevents many substances from entering the brain.",
+      difficulty: "Hard"
     }
   ],
 
   "Unit 6: Climate Change": [
-    // Easy Questions
+    // Easy Questions (10 total)
     {
       id: "bio12_climate_e1",
       question: "What is climate change?",
@@ -681,7 +1282,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Ocean warming causes coral bleaching, where corals expel symbiotic algae and turn white, often leading to coral death.",
       difficulty: "Easy"
     },
-    // Medium Questions
+    {
+      id: "bio12_climate_e6",
+      question: "What is global warming?",
+      options: ["Increase in Earth's average temperature", "Warming of specific regions only", "Seasonal temperature changes", "Indoor heating effects"],
+      correct: "Increase in Earth's average temperature",
+      explanation: "Global warming refers to the long-term increase in Earth's average surface temperature due to human activities and greenhouse gas emissions.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_climate_e7",
+      question: "Which human activity contributes most to climate change?",
+      options: ["Burning fossil fuels", "Breathing", "Eating meat", "Using water"],
+      correct: "Burning fossil fuels",
+      explanation: "Burning fossil fuels for energy production, transportation, and industry is the largest single source of greenhouse gas emissions.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_climate_e8",
+      question: "What is renewable energy?",
+      options: ["Energy from sources that naturally replenish", "Energy that can be reused", "Energy from fossils", "Energy from nuclear sources"],
+      correct: "Energy from sources that naturally replenish",
+      explanation: "Renewable energy comes from sources that naturally replenish themselves, such as solar, wind, water, and geothermal energy.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_climate_e9",
+      question: "What is carbon footprint?",
+      options: ["Total greenhouse gases produced by activities", "Footprint made by carbon", "Amount of carbon in soil", "Carbon content in food"],
+      correct: "Total greenhouse gases produced by activities",
+      explanation: "A carbon footprint measures the total amount of greenhouse gases produced directly and indirectly by human activities.",
+      difficulty: "Easy"
+    },
+    {
+      id: "bio12_climate_e10",
+      question: "What is deforestation?",
+      options: ["Cutting down forests", "Planting trees", "Forest fires", "Forest diseases"],
+      correct: "Cutting down forests",
+      explanation: "Deforestation is the clearing or removal of forests, often for agriculture or development, which contributes to climate change.",
+      difficulty: "Easy"
+    },
+    // Medium Questions (10 total)
     {
       id: "bio12_climate_m1",
       question: "How does deforestation contribute to climate change?",
@@ -722,7 +1363,47 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       explanation: "Melting ice caps and glaciers add water to the oceans, causing global sea levels to rise and threatening coastal communities.",
       difficulty: "Medium"
     },
-    // Hard Questions
+    {
+      id: "bio12_climate_m6",
+      question: "What is the difference between weather and climate?",
+      options: ["Weather is short-term, climate is long-term patterns", "Weather is global, climate is local", "Weather is predictable, climate is not", "Weather is natural, climate is artificial"],
+      correct: "Weather is short-term, climate is long-term patterns",
+      explanation: "Weather refers to short-term atmospheric conditions, while climate describes long-term patterns of weather over extended periods.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_climate_m7",
+      question: "How does agriculture contribute to climate change?",
+      options: ["Releases methane and uses fertilizers", "Only absorbs CO₂", "Cools the atmosphere", "Has no climate impact"],
+      correct: "Releases methane and uses fertilizers",
+      explanation: "Agriculture contributes to climate change through methane emissions from livestock, fertilizer use, and land use changes.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_climate_m8",
+      question: "What is the role of methane in climate change?",
+      options: ["Powerful greenhouse gas from agriculture and landfills", "Coolant that reduces temperature", "Oxygen producer", "Water vapor source"],
+      correct: "Powerful greenhouse gas from agriculture and landfills",
+      explanation: "Methane is a potent greenhouse gas, much more effective at trapping heat than CO₂, mainly produced by agriculture and waste decomposition.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_climate_m9",
+      question: "What is carbon sequestration?",
+      options: ["Capturing and storing carbon dioxide", "Releasing carbon dioxide", "Converting carbon to methane", "Burning carbon compounds"],
+      correct: "Capturing and storing carbon dioxide",
+      explanation: "Carbon sequestration is the process of capturing and storing atmospheric carbon dioxide to reduce greenhouse gas concentrations.",
+      difficulty: "Medium"
+    },
+    {
+      id: "bio12_climate_m10",
+      question: "How does climate change affect biodiversity?",
+      options: ["Threatens species survival and ecosystem balance", "Increases all species populations", "Has no effect on biodiversity", "Only affects plant species"],
+      correct: "Threatens species survival and ecosystem balance",
+      explanation: "Climate change threatens biodiversity by altering habitats, changing species distributions, and disrupting ecosystem relationships.",
+      difficulty: "Medium"
+    },
+    // Hard Questions (10 total)
     {
       id: "bio12_climate_h1",
       question: "What are climate feedback loops?",
@@ -761,6 +1442,46 @@ export const grade12BiologyQuestions: { [chapter: string]: BiologyQuestion[] } =
       options: ["Cities become warmer than surrounding areas", "Cities become cooler than rural areas", "Cities have no temperature difference", "Only affects building temperatures"],
       correct: "Cities become warmer than surrounding areas",
       explanation: "Urban heat islands occur when cities experience higher temperatures than surrounding rural areas due to concrete, asphalt, and reduced vegetation.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_climate_h6",
+      question: "What is the role of permafrost in climate change?",
+      options: ["Melting releases stored carbon and methane", "Provides cooling effect", "Absorbs more CO₂", "Prevents sea level rise"],
+      correct: "Melting releases stored carbon and methane",
+      explanation: "Permafrost contains large amounts of stored carbon that is released as CO₂ and methane when it melts, accelerating climate change.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_climate_h7",
+      question: "What is climate adaptation versus mitigation?",
+      options: ["Adaptation adjusts to changes, mitigation reduces causes", "Adaptation prevents changes, mitigation accepts them", "Both mean the same thing", "Adaptation is temporary, mitigation is permanent"],
+      correct: "Adaptation adjusts to changes, mitigation reduces causes",
+      explanation: "Climate adaptation involves adjusting to climate change impacts, while mitigation focuses on reducing greenhouse gas emissions to limit climate change.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_climate_h8",
+      question: "What is the relationship between climate change and extreme weather?",
+      options: ["Climate change increases frequency and intensity of extreme events", "No relationship exists", "Climate change only affects temperature", "Extreme weather prevents climate change"],
+      correct: "Climate change increases frequency and intensity of extreme events",
+      explanation: "Climate change increases the frequency and intensity of extreme weather events such as hurricanes, droughts, floods, and heat waves.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_climate_h9",
+      question: "What is geoengineering in climate change context?",
+      options: ["Technological interventions to counteract climate change", "Natural climate solutions", "Weather modification", "Geological surveys"],
+      correct: "Technological interventions to counteract climate change",
+      explanation: "Geoengineering refers to large-scale technological interventions designed to counteract climate change, such as solar radiation management or carbon capture.",
+      difficulty: "Hard"
+    },
+    {
+      id: "bio12_climate_h10",
+      question: "How does climate change affect ocean currents?",
+      options: ["Alters circulation patterns affecting global climate", "Speeds up all currents", "Stops ocean circulation", "Only affects surface currents"],
+      correct: "Alters circulation patterns affecting global climate",
+      explanation: "Climate change can alter ocean circulation patterns by changing water temperature and salinity, potentially disrupting global climate regulation.",
       difficulty: "Hard"
     }
   ]

@@ -65,6 +65,48 @@ const QuizPage = () => {
         }));
       }
       
+      if (decodedSubject === 'Biology' && grade === '12') {
+        // Import Biology questions dynamically
+        import('@/data/grade12BiologyQuestions').then(({ getGrade12BiologyQuestions }) => {
+          const difficultyLevel = selectedDifficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
+          const biologyQuestions = getGrade12BiologyQuestions(decodedChapter, difficultyLevel, 10);
+          
+          if (biologyQuestions.length === 0) {
+            // Fallback to getting questions from all difficulties
+            const easyQuestions = getGrade12BiologyQuestions(decodedChapter, 'easy', 3);
+            const mediumQuestions = getGrade12BiologyQuestions(decodedChapter, 'medium', 3);
+            const hardQuestions = getGrade12BiologyQuestions(decodedChapter, 'hard', 4);
+            const allQuestions = [...easyQuestions, ...mediumQuestions, ...hardQuestions];
+            
+            const formattedQuestions = allQuestions.map((q, index) => ({
+              id: index + 1,
+              question: q.question,
+              options: q.options,
+              correctAnswer: q.options.indexOf(q.correct),
+              explanation: q.explanation
+            }));
+            
+            setQuestions(formattedQuestions);
+            setAnswers(new Array(formattedQuestions.length).fill(null));
+          } else {
+            const formattedQuestions = biologyQuestions.map((q, index) => ({
+              id: index + 1,
+              question: q.question,
+              options: q.options,
+              correctAnswer: q.options.indexOf(q.correct),
+              explanation: q.explanation
+            }));
+            
+            setQuestions(formattedQuestions);
+            setAnswers(new Array(formattedQuestions.length).fill(null));
+          }
+          
+          setIsLoading(false);
+        });
+        
+        return []; // Return empty array while loading Biology questions
+      }
+      
       // Default mock questions for other subjects/grades
       return [
         {
@@ -105,10 +147,15 @@ const QuizPage = () => {
       ];
     };
 
-    const quizQuestions = initializeQuestions();
-    setQuestions(quizQuestions);
-    setAnswers(new Array(quizQuestions.length).fill(null));
-    setIsLoading(false); // Mark loading as complete
+    // For Biology, the questions are loaded asynchronously
+    if (decodedSubject === 'Biology' && grade === '12') {
+      initializeQuestions();
+    } else {
+      const quizQuestions = initializeQuestions();
+      setQuestions(quizQuestions);
+      setAnswers(new Array(quizQuestions.length).fill(null));
+      setIsLoading(false);
+    }
   }, [decodedSubject, grade, decodedChapter, selectedDifficulty]);
 
   useEffect(() => {
@@ -218,13 +265,39 @@ const QuizPage = () => {
           explanation: q.explanation
         }));
       }
-      return questions; // Keep existing questions for non-math subjects
+      
+      if (decodedSubject === 'Biology' && grade === '12') {
+        import('@/data/grade12BiologyQuestions').then(({ getGrade12BiologyQuestions }) => {
+          const difficultyLevel = selectedDifficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
+          const biologyQuestions = getGrade12BiologyQuestions(decodedChapter, difficultyLevel, 10);
+          
+          const formattedQuestions = biologyQuestions.map((q, index) => ({
+            id: index + 1,
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.options.indexOf(q.correct),
+            explanation: q.explanation
+          }));
+          
+          setQuestions(formattedQuestions);
+          setAnswers(new Array(formattedQuestions.length).fill(null));
+          setIsLoading(false);
+        });
+        
+        return [];
+      }
+      
+      return questions; // Keep existing questions for non-math/biology subjects
     };
     
-    const newQuestions = initializeQuestions();
-    setQuestions(newQuestions);
-    setAnswers(new Array(newQuestions.length).fill(null));
-    setIsLoading(false);
+    if (decodedSubject === 'Biology' && grade === '12') {
+      initializeQuestions();
+    } else {
+      const newQuestions = initializeQuestions();
+      setQuestions(newQuestions);
+      setAnswers(new Array(newQuestions.length).fill(null));
+      setIsLoading(false);
+    }
   };
 
   const getScoreColor = (score: number, total: number) => {
