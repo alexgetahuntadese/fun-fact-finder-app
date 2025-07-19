@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Clock, CheckCircle, XCircle, Trophy, RotateCcw, Eye } from 'lucide-react';
 import { grade12Mathematics, getMathQuestionsForQuiz } from '@/data/grade12Mathematics';
 import { getGrade12ChemistryQuestions } from '@/data/grade12ChemistryQuestions';
+import { getGrade12PhysicsQuestions } from '@/data/grade12PhysicsQuestions';
 import QuestionExplanation from '@/components/QuestionExplanation';
 
 interface Question {
@@ -152,6 +153,48 @@ const QuizPage = () => {
         setIsLoading(false);
         return [];
       }
+
+      if (decodedSubject === 'Physics' && grade === '12') {
+        console.log('Loading Physics questions for:', { chapter: decodedChapter, difficulty: selectedDifficulty });
+        
+        const difficultyLevel = selectedDifficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
+        const physicsQuestions = getGrade12PhysicsQuestions(decodedChapter, difficultyLevel, 10);
+        
+        console.log('Loaded Physics questions:', physicsQuestions.length);
+        
+        if (physicsQuestions.length === 0) {
+          const easyQuestions = getGrade12PhysicsQuestions(decodedChapter, 'easy', 3);
+          const mediumQuestions = getGrade12PhysicsQuestions(decodedChapter, 'medium', 3);
+          const hardQuestions = getGrade12PhysicsQuestions(decodedChapter, 'hard', 4);
+          const allQuestions = [...easyQuestions, ...mediumQuestions, ...hardQuestions];
+          
+          const formattedQuestions = allQuestions.map((q, index) => ({
+            id: index + 1,
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.options.indexOf(q.correct),
+            explanation: q.explanation || `This question tests your understanding of ${decodedChapter}. The correct answer demonstrates key concepts in this unit.`
+          }));
+          
+          setQuestions(formattedQuestions);
+          setAnswers(new Array(formattedQuestions.length).fill(null));
+        } else {
+          const formattedQuestions = physicsQuestions.map((q, index) => ({
+            id: index + 1,
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.options.indexOf(q.correct),
+            explanation: q.explanation || `This question tests your understanding of ${decodedChapter}. The correct answer demonstrates key concepts in this unit.`
+          }));
+          
+          console.log('Formatted Physics questions with explanations:', formattedQuestions);
+          setQuestions(formattedQuestions);
+          setAnswers(new Array(formattedQuestions.length).fill(null));
+        }
+        
+        setIsLoading(false);
+        return [];
+      }
       
       return [
         {
@@ -195,6 +238,8 @@ const QuizPage = () => {
     if (decodedSubject === 'Biology' && grade === '12') {
       initializeQuestions();
     } else if (decodedSubject === 'Chemistry' && grade === '12') {
+      initializeQuestions();
+    } else if (decodedSubject === 'Physics' && grade === '12') {
       initializeQuestions();
     } else {
       const quizQuestions = initializeQuestions();
@@ -361,6 +406,24 @@ const QuizPage = () => {
         setIsLoading(false);
         return [];
       }
+
+      if (decodedSubject === 'Physics' && grade === '12') {
+        const difficultyLevel = selectedDifficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
+        const physicsQuestions = getGrade12PhysicsQuestions(decodedChapter, difficultyLevel, 10);
+        
+        const formattedQuestions = physicsQuestions.map((q, index) => ({
+          id: index + 1,
+          question: q.question,
+          options: q.options,
+          correctAnswer: q.options.indexOf(q.correct),
+          explanation: q.explanation || `This question tests your understanding of ${decodedChapter}.`
+        }));
+        
+        setQuestions(formattedQuestions);
+        setAnswers(new Array(formattedQuestions.length).fill(null));
+        setIsLoading(false);
+        return [];
+      }
       
       return questions;
     };
@@ -368,6 +431,8 @@ const QuizPage = () => {
     if (decodedSubject === 'Biology' && grade === '12') {
       initializeQuestions();
     } else if (decodedSubject === 'Chemistry' && grade === '12') {
+      initializeQuestions();
+    } else if (decodedSubject === 'Physics' && grade === '12') {
       initializeQuestions();
     } else {
       const newQuestions = initializeQuestions();

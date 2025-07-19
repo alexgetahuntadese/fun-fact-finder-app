@@ -7,6 +7,7 @@ import { ArrowLeft, Play, CheckCircle, Clock, BookOpen, Target } from 'lucide-re
 import { grade12Mathematics } from '@/data/grade12Mathematics';
 import { grade12BiologyQuestions } from '@/data/grade12BiologyQuestions';
 import { grade12ChemistryQuestions } from '@/data/grade12ChemistryQuestions';
+import { grade12PhysicsQuestions } from '@/data/grade12PhysicsQuestions';
 
 const ChaptersPage = () => {
   const navigate = useNavigate();
@@ -82,6 +83,31 @@ const ChaptersPage = () => {
           progress: Math.floor(Math.random() * 101),
           isCompleted: Math.random() > 0.7,
           questionsCount: totalQuestions,
+          difficultyBreakdown: {
+            easy: easyQuestions,
+            medium: mediumQuestions,
+            hard: hardQuestions
+          }
+        };
+      });
+    }
+    
+    if (decodedSubject === 'Physics' && grade === '12') {
+      return Object.keys(grade12PhysicsQuestions).map((unitName, index) => {
+        const questions = grade12PhysicsQuestions[unitName];
+        const easyQuestions = questions.filter(q => q.difficulty === 'Easy').length;
+        const mediumQuestions = questions.filter(q => q.difficulty === 'Medium').length;
+        const hardQuestions = questions.filter(q => q.difficulty === 'Hard').length;
+        
+        return {
+          id: index + 1,
+          title: unitName,
+          description: getPhysicsUnitDescription(unitName),
+          duration: getDurationEstimate(questions.length),
+          difficulty: getDominantDifficulty(easyQuestions, mediumQuestions, hardQuestions),
+          progress: Math.floor(Math.random() * 101),
+          isCompleted: Math.random() > 0.7,
+          questionsCount: questions.length,
           difficultyBreakdown: {
             easy: easyQuestions,
             medium: mediumQuestions,
@@ -193,6 +219,17 @@ const ChaptersPage = () => {
       "Unit 5: INTRODUCTION TO ENVIRONMENTAL CHEMISTRY": "Investigate chemical pollutants, water treatment, and environmental protection"
     };
     return descriptions[unitName] || "Comprehensive study of chemical principles and their real-world applications";
+  };
+
+  const getPhysicsUnitDescription = (unitName: string) => {
+    const descriptions: { [key: string]: string } = {
+      "Unit 1: Application of physics in other fields": "Explore how physics principles are applied in medicine, agriculture, and technology",
+      "Unit 2: Two-dimensional motion": "Master projectile motion, circular motion, and vector analysis in two dimensions",
+      "Unit 3: Fluid Mechanics": "Study pressure, buoyancy, Bernoulli's principle, and fluid dynamics",
+      "Unit 4: Electromagnetism": "Learn electric and magnetic fields, electromagnetic induction, and Maxwell's equations",
+      "Unit 5: Basics of electronics": "Understand semiconductors, diodes, transistors, and digital electronics fundamentals"
+    };
+    return descriptions[unitName] || "Comprehensive study of physics principles and their practical applications";
   };
 
   const getDurationEstimate = (questionCount: number) => {

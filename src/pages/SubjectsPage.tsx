@@ -51,7 +51,7 @@ const SubjectsPage = () => {
     {
       name: 'Physics',
       description: 'Motion, forces, energy, and natural phenomena',
-      chapters: 10,
+      chapters: 5,
       estimatedTime: '40 hours',
       difficulty: 'Advanced',
       icon: subjectIcons.Physics,
