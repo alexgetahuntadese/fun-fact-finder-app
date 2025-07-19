@@ -50,6 +50,46 @@ export const grade12PhysicsQuestions: { [chapter: string]: PhysicsQuestion[] } =
       explanation: "Biophysics uses physics methods and theories to study biological systems and phenomena.",
       difficulty: "Easy"
     },
+    {
+      id: "phy12_app_e6",
+      question: "Which radiation is used in radiotherapy?",
+      options: ["Ionizing radiation", "Visible light", "Infrared radiation", "Sound waves"],
+      correct: "Ionizing radiation",
+      explanation: "Ionizing radiation such as gamma rays and X-rays are used in radiotherapy to treat cancer.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_app_e7",
+      question: "What does GPS stand for?",
+      options: ["Global Positioning System", "General Physics System", "Global Physics Standard", "General Positioning Standard"],
+      correct: "Global Positioning System",
+      explanation: "GPS uses physics principles including relativity and electromagnetic waves for precise positioning.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_app_e8",
+      question: "In sports physics, what affects the trajectory of a ball?",
+      options: ["Gravity and air resistance", "Only gravity", "Only air resistance", "Weight only"],
+      correct: "Gravity and air resistance",
+      explanation: "Both gravity and air resistance affect the motion and trajectory of projectiles in sports.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_app_e9",
+      question: "What principle is used in optical fibers for communication?",
+      options: ["Total internal reflection", "Refraction", "Diffraction", "Polarization"],
+      correct: "Total internal reflection",
+      explanation: "Optical fibers use total internal reflection to guide light signals over long distances.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_app_e10",
+      question: "Which physics concept is important in architecture?",
+      options: ["Structural mechanics", "Nuclear physics", "Quantum mechanics", "Particle physics"],
+      correct: "Structural mechanics",
+      explanation: "Structural mechanics applies physics principles to ensure buildings and structures are safe and stable.",
+      difficulty: "Easy"
+    },
     // Medium Questions
     {
       id: "phy12_app_m1",
@@ -91,6 +131,46 @@ export const grade12PhysicsQuestions: { [chapter: string]: PhysicsQuestion[] } =
       explanation: "Biomechanics applies principles of force, motion, and mechanics to understand how organisms move and function.",
       difficulty: "Medium"
     },
+    {
+      id: "phy12_app_m6",
+      question: "What type of imaging provides functional information about organs?",
+      options: ["Nuclear medicine imaging", "X-ray imaging", "Ultrasound imaging", "Optical imaging"],
+      correct: "Nuclear medicine imaging",
+      explanation: "Nuclear medicine imaging uses radioactive tracers to provide functional information about organ systems.",
+      difficulty: "Medium"
+    },
+    {
+      id: "phy12_app_m7",
+      question: "In laser surgery, what property of laser light is most important?",
+      options: ["High intensity and precision", "Low frequency", "Random polarization", "Long wavelength"],
+      correct: "High intensity and precision",
+      explanation: "Laser surgery utilizes the high intensity and precise focusing capability of laser light for accurate tissue cutting.",
+      difficulty: "Medium"
+    },
+    {
+      id: "phy12_app_m8",
+      question: "What physics principle explains GPS accuracy requirements?",
+      options: ["Relativistic time corrections", "Classical mechanics only", "Electromagnetic induction", "Quantum tunneling"],
+      correct: "Relativistic time corrections",
+      explanation: "GPS requires relativistic corrections due to time dilation effects from satellite motion and gravitational differences.",
+      difficulty: "Medium"
+    },
+    {
+      id: "phy12_app_m9",
+      question: "In environmental monitoring, what electromagnetic radiation is used to detect pollutants?",
+      options: ["Infrared and ultraviolet", "Only visible light", "Only radio waves", "Only X-rays"],
+      correct: "Infrared and ultraviolet",
+      explanation: "Infrared and ultraviolet spectroscopy are used to identify and quantify various atmospheric pollutants.",
+      difficulty: "Medium"
+    },
+    {
+      id: "phy12_app_m10",
+      question: "What physics concept is applied in earthquake-resistant building design?",
+      options: ["Resonance and damping", "Only static equilibrium", "Electromagnetic forces", "Nuclear stability"],
+      correct: "Resonance and damping",
+      explanation: "Buildings are designed to avoid resonance with earthquake frequencies and include damping systems to reduce oscillations.",
+      difficulty: "Medium"
+    },
     // Hard Questions
     {
       id: "phy12_app_h1",
@@ -107,7 +187,71 @@ export const grade12PhysicsQuestions: { [chapter: string]: PhysicsQuestion[] } =
       correct: "Annihilation producing gamma rays",
       explanation: "In PET scans, positrons annihilate with electrons, producing two gamma rays that travel in opposite directions, which are detected to create images.",
       difficulty: "Hard"
-    }
+    },
+    {
+      id: "phy12_app_h3",
+      question: "What quantum mechanical effect is utilized in electron microscopy?",
+      options: ["Wave-particle duality of electrons", "Photoelectric effect", "Compton scattering", "Pair production"],
+      correct: "Wave-particle duality of electrons",
+      explanation: "Electron microscopy uses the wave nature of electrons to achieve much higher resolution than optical microscopes.",
+      difficulty: "Hard"
+    },
+    {
+      id: "phy12_app_h4",
+      question: "In magnetic resonance imaging, what determines the contrast between different tissues?",
+      options: ["Different relaxation times", "Different densities only", "Different temperatures", "Different electrical conductivity"],
+      correct: "Different relaxation times",
+      explanation: "MRI contrast depends on different T1 and T2 relaxation times of hydrogen nuclei in various tissues.",
+      difficulty: "Hard"
+    },
+    {
+      id: "phy12_app_h5",
+      question: "What physics principle enables laser cooling of atoms?",
+      options: ["Doppler effect and radiation pressure", "Magnetic confinement", "Electric field trapping", "Gravitational effects"],
+      correct: "Doppler effect and radiation pressure",
+      explanation: "Laser cooling uses the Doppler effect to selectively absorb photons that oppose atomic motion, creating radiation pressure that slows atoms.",
+      difficulty: "Hard"
+    },
+    {
+      id: "phy12_app_h6",
+      question: "In computed tomography, what mathematical technique reconstructs 3D images?",
+      options: ["Radon transform", "Fourier transform only", "Laplace transform", "Z-transform"],
+      correct: "Radon transform",
+      explanation: "CT reconstruction uses the inverse Radon transform to convert X-ray projection data into cross-sectional images.",
+      difficulty: "Hard"
+    },
+    {
+      id: "phy12_app_h7",
+      question: "What relativistic effect must be considered in particle therapy?",
+      options: ["Mass-energy equivalence", "Length contraction", "Time dilation only", "Simultaneity"],
+      correct: "Mass-energy equivalence",
+      explanation: "High-energy particle therapy requires consideration of relativistic mass-energy relationships for accurate dose calculations.",
+      difficulty: "Hard"
+    },
+    {
+      id: "phy12_app_h8",
+      question: "In optical coherence tomography, what property of light enables high-resolution imaging?",
+      options: ["Coherence length", "Wavelength only", "Amplitude only", "Polarization only"],
+      correct: "Coherence length",
+      explanation: "OCT uses the short coherence length of broadband light sources to achieve micrometer-scale depth resolution.",
+      difficulty: "Hard"
+    },
+    {
+      id: "phy12_app_h9",
+      question: "What quantum effect is exploited in scanning tunneling microscopy?",
+      options: ["Quantum tunneling", "Photoelectric effect", "Compton effect", "Pair production"],
+      correct: "Quantum tunneling",
+      explanation: "STM relies on quantum tunneling of electrons between the probe tip and sample surface to map atomic-scale topography.",
+      difficulty: "Hard"
+    },
+    {
+      id: "phy12_app_h10",
+      question: "In hyperthermia cancer treatment, what physics principle determines heating efficiency?",
+      options: ["Electromagnetic absorption and thermal diffusion", "Only electromagnetic absorption", "Only thermal conduction", "Mechanical vibration"],
+      correct: "Electromagnetic absorption and thermal diffusion",
+      explanation: "Hyperthermia treatment depends on both electromagnetic energy absorption by tissues and thermal diffusion to achieve therapeutic temperatures.",
+      difficulty: "Hard"
+    },
   ],
 
   "Unit 2: Two-dimensional motion": [
@@ -150,6 +294,46 @@ export const grade12PhysicsQuestions: { [chapter: string]: PhysicsQuestion[] } =
       options: ["Toward the center", "Away from center", "Tangent to circle", "Perpendicular to plane"],
       correct: "Toward the center",
       explanation: "Centripetal acceleration always points toward the center of the circular path, providing the force needed for circular motion.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_2d_e6",
+      question: "What is angular velocity?",
+      options: ["Rate of change of angular displacement", "Linear velocity", "Tangential velocity", "Radial velocity"],
+      correct: "Rate of change of angular displacement",
+      explanation: "Angular velocity is the rate at which an object rotates, measured in radians per second.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_2d_e7",
+      question: "In projectile motion, which component of acceleration is zero?",
+      options: ["Horizontal", "Vertical", "Both components", "Neither component"],
+      correct: "Horizontal",
+      explanation: "In projectile motion (neglecting air resistance), horizontal acceleration is zero while vertical acceleration equals gravity.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_2d_e8",
+      question: "What is the range of a projectile?",
+      options: ["Horizontal distance traveled", "Maximum height reached", "Time of flight", "Initial velocity"],
+      correct: "Horizontal distance traveled",
+      explanation: "Range is the total horizontal distance a projectile travels from launch to landing.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_2d_e9",
+      question: "In uniform circular motion, what is constant?",
+      options: ["Speed", "Velocity", "Acceleration", "Direction"],
+      correct: "Speed",
+      explanation: "In uniform circular motion, the speed (magnitude of velocity) remains constant, but direction changes continuously.",
+      difficulty: "Easy"
+    },
+    {
+      id: "phy12_2d_e10",
+      question: "What force keeps a satellite in orbit?",
+      options: ["Gravitational force", "Magnetic force", "Electric force", "Nuclear force"],
+      correct: "Gravitational force",
+      explanation: "Gravitational force provides the centripetal force needed to keep satellites in circular or elliptical orbits.",
       difficulty: "Easy"
     },
     // Medium Questions
