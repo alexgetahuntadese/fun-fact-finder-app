@@ -1,4 +1,5 @@
 import { grade12BiologyQuestions, getGrade12BiologyQuestions } from './grade12BiologyQuestions';
+import { grade12ChemistryQuestions, getGrade12ChemistryQuestions } from './grade12ChemistryQuestions';
 
 export interface Question {
   id: string;
@@ -285,6 +286,24 @@ export const getQuestionsForQuiz = (subject: string, chapter: string, difficulty
     // If no questions found, log the available chapters
     console.log('Available Grade 12 Biology chapters:', Object.keys(grade12BiologyQuestions));
     console.log('Requested chapter:', chapter);
+    return [];
+  }
+
+  // Handle Grade 12 Chemistry questions
+  if (subject === 'chemistry' && chapter.includes('Unit')) {
+    console.log('Processing Grade 12 Chemistry for chapter:', chapter);
+    
+    const difficultyLevel = difficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
+    const questions = getGrade12ChemistryQuestions(chapter, difficultyLevel, count);
+    console.log('Found Grade 12 Chemistry questions:', questions.length);
+    
+    if (questions.length > 0) {
+      return questions;
+    }
+    
+    // If no questions found, log the available units
+    console.log('Available Grade 12 Chemistry units:', Object.keys(grade12ChemistryQuestions));
+    console.log('Requested unit:', chapter);
     return [];
   }
 
