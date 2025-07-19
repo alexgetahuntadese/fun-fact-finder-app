@@ -1,4 +1,4 @@
-// Grade 12 Biology files removed
+import { grade12BiologyQuestions, getGrade12BiologyQuestions } from './grade12BiologyQuestions';
 
 export interface Question {
   id: string;
@@ -270,9 +270,21 @@ const grade11TechnicalDrawingQuestions: { [chapter: string]: Question[] } = {
 export const getQuestionsForQuiz = (subject: string, chapter: string, difficulty: string, count: number = 15) => {
   console.log('Getting questions for:', { subject, chapter, difficulty, count });
   
-  // Grade 12 Biology removed - no questions available
+  // Handle Grade 12 Biology questions
   if (subject === 'biology' && chapter.includes('Unit')) {
-    console.log('Grade 12 Biology content has been removed');
+    console.log('Processing Grade 12 Biology for chapter:', chapter);
+    
+    const difficultyLevel = difficulty.toLowerCase() as 'easy' | 'medium' | 'hard';
+    const questions = getGrade12BiologyQuestions(chapter, difficultyLevel, count);
+    console.log('Found Grade 12 Biology questions:', questions.length);
+    
+    if (questions.length > 0) {
+      return questions;
+    }
+    
+    // If no questions found, log the available chapters
+    console.log('Available Grade 12 Biology chapters:', Object.keys(grade12BiologyQuestions));
+    console.log('Requested chapter:', chapter);
     return [];
   }
 
