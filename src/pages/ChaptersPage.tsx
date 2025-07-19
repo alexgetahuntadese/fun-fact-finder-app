@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, Play, CheckCircle, Clock, BookOpen, Target } from 'lucide-react';
 import { grade12Mathematics } from '@/data/grade12Mathematics';
 import { grade12BiologyQuestions } from '@/data/grade12BiologyQuestions';
+import { grade12ChemistryQuestions } from '@/data/grade12ChemistryQuestions';
 
 const ChaptersPage = () => {
   const navigate = useNavigate();
@@ -55,6 +56,32 @@ const ChaptersPage = () => {
           progress: Math.floor(Math.random() * 101),
           isCompleted: Math.random() > 0.7,
           questionsCount: questions.length,
+          difficultyBreakdown: {
+            easy: easyQuestions,
+            medium: mediumQuestions,
+            hard: hardQuestions
+          }
+        };
+      });
+    }
+    
+    if (decodedSubject === 'Chemistry' && grade === '12') {
+      return Object.keys(grade12ChemistryQuestions).map((unitName, index) => {
+        const unitData = grade12ChemistryQuestions[unitName];
+        const easyQuestions = unitData.easy.length;
+        const mediumQuestions = unitData.medium.length;
+        const hardQuestions = unitData.hard.length;
+        const totalQuestions = easyQuestions + mediumQuestions + hardQuestions;
+        
+        return {
+          id: index + 1,
+          title: unitName,
+          description: getChemistryUnitDescription(unitName),
+          duration: getDurationEstimate(totalQuestions),
+          difficulty: getDominantDifficulty(easyQuestions, mediumQuestions, hardQuestions),
+          progress: Math.floor(Math.random() * 101),
+          isCompleted: Math.random() > 0.7,
+          questionsCount: totalQuestions,
           difficultyBreakdown: {
             easy: easyQuestions,
             medium: mediumQuestions,
@@ -155,6 +182,17 @@ const ChaptersPage = () => {
       "Unit 6: Climate Change": "Investigate the biological impacts of climate change on ecosystems and biodiversity"
     };
     return descriptions[chapterName] || "Comprehensive study of biological concepts and life processes";
+  };
+
+  const getChemistryUnitDescription = (unitName: string) => {
+    const descriptions: { [key: string]: string } = {
+      "Unit 1: ACID-BASE EQUILIBRIUM": "Master pH calculations, buffer systems, and acid-base titrations for chemical analysis",
+      "Unit 2: ELECTROCHEMISTRY": "Explore galvanic cells, electrolysis, and electrochemical processes in industry",
+      "Unit 3: INDUSTRIAL CHEMISTRY": "Study large-scale chemical processes including Haber process and Contact process",
+      "Unit 4: POLYMERS": "Learn about polymer synthesis, properties, and applications in modern materials",
+      "Unit 5: INTRODUCTION TO ENVIRONMENTAL CHEMISTRY": "Investigate chemical pollutants, water treatment, and environmental protection"
+    };
+    return descriptions[unitName] || "Comprehensive study of chemical principles and their real-world applications";
   };
 
   const getDurationEstimate = (questionCount: number) => {
