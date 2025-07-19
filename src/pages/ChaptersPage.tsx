@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, Play, CheckCircle, Clock, BookOpen, Target } from 'lucide-react';
 import { grade12Mathematics } from '@/data/grade12Mathematics';
+import { grade12BiologyQuestions } from '@/data/grade12BiologyQuestions';
 
 const ChaptersPage = () => {
   const navigate = useNavigate();
@@ -26,8 +27,8 @@ const ChaptersPage = () => {
           description: getChapterDescription(chapterName),
           duration: getDurationEstimate(questions.length),
           difficulty: getDominantDifficulty(easyQuestions, mediumQuestions, hardQuestions),
-          progress: Math.floor(Math.random() * 101), // Random progress for demo
-          isCompleted: Math.random() > 0.7, // Random completion status
+          progress: Math.floor(Math.random() * 101),
+          isCompleted: Math.random() > 0.7,
           questionsCount: questions.length,
           difficultyBreakdown: {
             easy: easyQuestions,
@@ -38,7 +39,31 @@ const ChaptersPage = () => {
       });
     }
     
-    // Default mock chapters for other subjects/grades
+    if (decodedSubject === 'Biology' && grade === '12') {
+      return Object.keys(grade12BiologyQuestions).map((chapterName, index) => {
+        const questions = grade12BiologyQuestions[chapterName];
+        const easyQuestions = questions.filter(q => q.difficulty === 'Easy').length;
+        const mediumQuestions = questions.filter(q => q.difficulty === 'Medium').length;
+        const hardQuestions = questions.filter(q => q.difficulty === 'Hard').length;
+        
+        return {
+          id: index + 1,
+          title: chapterName,
+          description: getBiologyChapterDescription(chapterName),
+          duration: getDurationEstimate(questions.length),
+          difficulty: getDominantDifficulty(easyQuestions, mediumQuestions, hardQuestions),
+          progress: Math.floor(Math.random() * 101),
+          isCompleted: Math.random() > 0.7,
+          questionsCount: questions.length,
+          difficultyBreakdown: {
+            easy: easyQuestions,
+            medium: mediumQuestions,
+            hard: hardQuestions
+          }
+        };
+      });
+    }
+    
     return [
       {
         id: 1,
@@ -118,6 +143,18 @@ const ChaptersPage = () => {
       "Unit 5: Mathematical Application in Business": "Apply mathematical concepts to business problems and financial calculations"
     };
     return descriptions[chapterName] || "Comprehensive study of mathematical concepts and problem-solving techniques";
+  };
+
+  const getBiologyChapterDescription = (chapterName: string) => {
+    const descriptions: { [key: string]: string } = {
+      "Unit 1: Application of Biology": "Explore the practical applications of biological principles in medicine, agriculture, and biotechnology",
+      "Unit 2: Microorganisms": "Study bacteria, viruses, fungi, and their roles in ecosystems and human health",
+      "Unit 3: Energy transformation": "Understand cellular respiration, photosynthesis, and energy flow in biological systems",
+      "Unit 4: Evolution": "Learn about natural selection, genetic variation, and the mechanisms of evolutionary change",
+      "Unit 5: Human Body System": "Examine the structure and function of major organ systems in the human body",
+      "Unit 6: Climate Change": "Investigate the biological impacts of climate change on ecosystems and biodiversity"
+    };
+    return descriptions[chapterName] || "Comprehensive study of biological concepts and life processes";
   };
 
   const getDurationEstimate = (questionCount: number) => {
